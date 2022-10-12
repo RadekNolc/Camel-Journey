@@ -37,7 +37,7 @@ public class Camel extends CamelTemplate {
 
     //Přesun do nějaké destinace
     public void move(Location destination) throws Exception {
-        setStamina(getStamina() - getLocation().calculateDistance(destination));
+        setStamina(getStamina() - getLocation().calculateDirectDistance(destination));
         setLocation(destination);
     }
 
@@ -70,7 +70,7 @@ public class Camel extends CamelTemplate {
 
     @Override
     public String toString() {
-        return String.format("Camel > Name: %s | ID: %d | Speed: %f | Stamina: %f | drinkTime: %.2f | maxLoad: %d | current location: (%s)", getName(), getId(), getSpeed(), getStamina(), getDrinkTime(), getMaxLoad(), getLocation()); //Pouze pro výpis
+        return String.format("Velbloud: %d", getId());
     }
     
 }

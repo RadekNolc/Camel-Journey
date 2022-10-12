@@ -7,6 +7,26 @@ public class Map {
     private static double[][] cost;
     private static int[][] path;
 
+	//Zjištění nejlepšího skladu (z pohledu ceny)
+	public static Storage getBestStorage(Location to) throws Exception {
+		if (!isRendered) {
+			throw new Exception("Map has not been rendered yet.");
+		}
+
+		double bestDistance = Double.MAX_VALUE;
+		Storage bestStorage = null;
+		for (Storage storage : Storage.getStorages()) {
+			double distance = getTotalDistance(storage, to);
+			if (distance < bestDistance) {
+				bestDistance = distance;
+				bestStorage = storage;
+			}			
+		}
+
+		if (bestStorage == null) throw new Exception("There is probably no storage on map.");
+		return bestStorage;
+	}
+
 	public static ArrayList<Location> getLocationsBetween(Location from, Location to) throws Exception
 	{
         if (!isRendered) {
@@ -48,6 +68,15 @@ public class Map {
 		route.add(path[v][u]);
 	}
 
+	//Getting total distance between two locations
+	public static double getTotalDistance(Location from, Location to) throws Exception {
+		if (!isRendered) {
+			throw new Exception("Map has not been rendered yet.");
+		}
+
+		return cost[from.getId() - 1][to.getId() - 1];
+	}
+	
     private static double[][] calculateLightDistances() throws Exception {
         double[][] adj = new double[Location.getLocations().size()][Location.getLocations().size()];
         double inf = Double.MAX_VALUE;
@@ -67,7 +96,7 @@ public class Map {
         for (int i = 0; i < Path.getPaths().size(); i++) {
             Location from = Location.getLocationById(Path.getPaths().get(i).getFrom().getId());
             Location to = Location.getLocationById(Path.getPaths().get(i).getTo().getId());
-            double distance = from.calculateDistance(to);
+            double distance = Calculator.directDistance(from, to);
 
             adj[Path.getPaths().get(i).getFrom().getId()-1][Path.getPaths().get(i).getTo().getId()-1] = Math.min(adj[Path.getPaths().get(i).getFrom().getId()-1][Path.getPaths().get(i).getTo().getId()-1], distance);
             adj[Path.getPaths().get(i).getTo().getId()-1][Path.getPaths().get(i).getFrom().getId()-1] = Math.min(adj[Path.getPaths().get(i).getTo().getId()-1][Path.getPaths().get(i).getFrom().getId()-1], distance);

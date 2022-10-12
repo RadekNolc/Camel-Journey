@@ -1,8 +1,3 @@
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 public class Main {
 
     //public static Scanner sc;
@@ -17,10 +12,11 @@ public class Main {
         //Vytvoření lokací
         Location obj1 = new Storage(10, 10, 3, 1000, 1);
         Location obj2 = new Oasis(0, 0);
-        Location obj3 = new Oasis(0, 10);
+        Location obj3 = new Oasis(0, 20); //TODO: Změnit na 0, 10
         Location obj4 = new Oasis(20, 20);
         Location obj5 = new Oasis(30, 30);
         Location obj6 = new Oasis(40, 40);
+        Location obj7 = new Storage(50, 50, 3, 1000, 1);
 
         //vytvoření cest
         Path path12 = new Path(1, 2);
@@ -28,6 +24,7 @@ public class Main {
         Path path14 = new Path(1, 4);
         Path path45 = new Path(4, 5);
         Path path56 = new Path(5, 6);
+        Path path67 = new Path(6, 7);
 
         //Vytvoření šablon pro velbloudy
         CamelTemplate pomaly = new CamelTemplate("Pomaly", 5, 10, 10, 50, 0, 1, 0.7);

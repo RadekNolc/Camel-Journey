@@ -25,7 +25,7 @@ public class Location extends Point {
         return id;
     }
 
-    public double calculateDistance(Location destination) {
+    public double calculateDirectDistance(Location destination) {
         return Math.sqrt(Math.abs((getX() - destination.getX()) * (getX() - destination.getX())) + Math.abs((getY() - destination.getY()) * (getY() - destination.getY())));
     }
     
@@ -34,10 +34,9 @@ public class Location extends Point {
     }
 
     public static Location getLocationById(int id) throws Exception {
-        for(Location l : locations) {
-            if (l.getId() == id) {
-                return l;
-            }
+        Location location = locations.get(id - 1);
+        if (location != null) {
+            return location;
         }
 
         throw new Exception("Could not find Location with ID " + id);

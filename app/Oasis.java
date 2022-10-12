@@ -9,6 +9,6 @@ public class Oasis extends Location {
 
     @Override
     public String toString() {
-        return String.format("Oasis | ID: %d | X: %d | Y: %d", getId(), getX(), getY()); //Pouze pro výpis
+        return String.format("Oaza: %d", getId()); //Pouze pro výpis
     }
 }

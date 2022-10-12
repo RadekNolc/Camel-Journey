@@ -1,5 +1,4 @@
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 /**
@@ -23,7 +22,7 @@ public class Request {
     /** Next identifier. */
     private static int nextId = 1;
 
-    private static Queue<Request> requests = new PriorityQueue<Request>();
+    private static Queue<Request> requests = new LinkedList<Request>();
 
     /**
      * Constructor of request
@@ -42,7 +41,32 @@ public class Request {
         requests.add(this);
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public double getArrival() {
+        return arrival;
+    }
+
+    public int getOasisId() {
+        return oasis;
+    }
+
+    public int getNeededStretchers() {
+        return needed;
+    }
+
+    public double getDeadline() {
+        return deadline;
+    }
+
     public static Queue<Request> getRequests() {
         return requests;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Pozadavek: %d", getId());
     }
 }

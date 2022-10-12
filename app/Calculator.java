@@ -48,12 +48,12 @@ public class Calculator {
     }
 
     /**
-     * Function to calculate distance between two points (locations).
+     * Function to calculate direct distance between two points (locations).
      * @param location1 first location to calculate distance from
      * @param location2 second location to calculate distance from
      * @return distance between two points (locations)
      */
-    public static double distance(Location location1, Location location2) {
+    public static double directDistance(Location location1, Location location2) {
         return Math.sqrt(Math.abs((location1.getX() - location2.getX()) * (location1.getX() - location2.getX())) + Math.abs((location1.getY() - location2.getY()) * (location1.getY() - location2.getY())));
     }
 }

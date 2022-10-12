@@ -1,8 +1,13 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 //Třída pro sklad, potomek Lokace
 public class Storage extends Location {
     
     //Atributy
     private Stretcher[] stretchers; //Pole košů
+    private ArrayList<Camel> camels;
 
     private double fillTime; //Čas do znovunaplnění košů
     private double loadTime; //Čas naložení koše na velblouda
@@ -16,6 +21,7 @@ public class Storage extends Location {
         this.loadTime = loadTime;
 
         stretchers = new Stretcher[maxStretchers]; //Vytvoření pole 
+        camels = new ArrayList<>(); //Vytvoření ArrayListu velbloudů
 
         refillStretchers(); //Naplnění košů
     }
@@ -41,8 +47,27 @@ public class Storage extends Location {
         }
     }
 
+    public Camel generateCamel() throws Exception {
+        Camel camel = Factory.camel();
+        camel.setLocation(this);
+
+        camels.add(camel);
+        return camel;
+    }
+
+    public static List<Storage> getStorages() {
+        List<Storage> storages = new ArrayList<Storage>();
+
+        for (Location location : Location.getLocations()) {
+            if (location instanceof Storage)
+                storages.add((Storage)location);
+        }
+
+        return Collections.unmodifiableList(storages);
+    }
+
     @Override
     public String toString() {
-        return String.format("Storage | ID: %d | X: %d | Y: %d | maxStretchers: %d | fillTime: %.2f | loadTime: %.2f", getId(), getX(), getY(), stretchers.length, fillTime, loadTime);
+        return String.format("Sklad: %d", getId());
     }
 }
