@@ -7,7 +7,7 @@ public class Map {
     private static double[][] cost;
     private static int[][] path;
 
-	//Zjištění nejlepšího skladu (z pohledu ceny)
+	//Zjištění nejbližšího skladu
 	public static Storage getNearestStorage(Location to) throws Exception {
 		if (!isRendered) {
 			throw new Exception("Map has not been rendered yet.");
@@ -150,8 +150,8 @@ public class Map {
 					// If vertex `k` is on the shortest path from `v` to `u`,
 					// then update the value of cost[v][u] and path[v][u]
 
-					if (cost[v][k] != Integer.MAX_VALUE
-							&& cost[k][u] != Integer.MAX_VALUE
+					if (cost[v][k] != Double.MAX_VALUE
+							&& cost[k][u] != Double.MAX_VALUE
 							&& (cost[v][k] + cost[k][u] < cost[v][u]))
 					{
 						cost[v][u] = cost[v][k] + cost[k][u];
@@ -167,6 +167,10 @@ public class Map {
 		}
 
         isRendered = true;
+	}
+
+	public static boolean isRendered() {
+		return isRendered;
 	}
 
 }

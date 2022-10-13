@@ -25,10 +25,11 @@ public class Calculator {
     public static double normalDistribution(double min, double max) throws Exception {
         Double result = null;
         int tries = 1;
-        int maxTries = 20;
+        int maxTries = 20; //Anti-cycle
 
         while ((result == null) || (result < min || result > max)) {
             if (tries >= maxTries) throw new Exception("Error while computing normal distribution.");
+                
             result = random.nextGaussian((min + max) / 2.0, (max - min) / 4.0);
             tries++;
         }
@@ -57,8 +58,13 @@ public class Calculator {
         return Math.sqrt(Math.abs((location1.getX() - location2.getX()) * (location1.getX() - location2.getX())) + Math.abs((location1.getY() - location2.getY()) * (location1.getY() - location2.getY())));
     }
 
+    /**
+     * Function to calculate time to travel
+     * @param distance how far to travel
+     * @param speed at which speed to travel
+     * @return needed time to travel the distance with constant speed
+     */
     public static double timeToTravel(double distance, double speed) {
-        // t = s / v
         return distance / speed;
     }
 }

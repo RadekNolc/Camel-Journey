@@ -8,8 +8,6 @@ public class Camel extends CamelTemplate {
     private int id;
     /** Home location (Storage) of camel */
     private Storage homeStorage;
-    /** Current location of camel */
-    private Location location;
     /** Constant value (speed) that is generated to current camel */
     private double speed;
     /** How much camel can travel */
@@ -37,8 +35,11 @@ public class Camel extends CamelTemplate {
         this.stamina = Calculator.normalDistribution(distanceMin, distanceMax);
     }
 
-    //Přesun do nějaké destinace
-    public void move(Location destination) throws Exception {
+    /**
+     * Sets Location to the camel's location, decreases stamina of the camel upon location change
+     * @param destination the destination where the camel should go
+     */
+    public void move(Location destination) {
         setStamina(getStamina() - getLocation().calculateDirectDistance(destination));
         setLocation(destination);
     }
@@ -48,16 +49,8 @@ public class Camel extends CamelTemplate {
         return id;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
     public void setHomeStorage(Storage storage) {
         this.homeStorage = storage;
-    }
-
-    private void setLocation(Location location) {
-        this.location = location;
     }
 
     //Getting speed

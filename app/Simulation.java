@@ -8,16 +8,18 @@ public class Simulation {
         while (Request.getRequests().peek() != null) {
             Request request = Request.getRequests().poll();
 
-            if (isPossibleToProcess(request))
+            if (isPossibleToProcess(request)) {
                 processRequest(request);
-            else
+            }
+            else {
                 throw new Exception("Simulation failed.");
+            }
         }
 
         System.out.println("Simulation finished.");
     }
 
-    public void processRequest(Request request) throws Exception {
+    private void processRequest(Request request) throws Exception {
         Location oasis = Location.getLocationById(request.getOasisId());
         double time = request.getArrival();
         int needed = request.getNeededStretchers();
@@ -25,20 +27,39 @@ public class Simulation {
 
         System.out.printf("Cas: %.0f, %s, %s, Pocet kosu: %d, Deadline: %.0f\n", time, request, oasis, needed, deadline);
 
-        Storage storage = Map.getNearestStorage(oasis);
+        Storage storage = getPossibleStorage(request);
         
         //System.out.printf("Cas: %.0f, %s, %s, Nalozeno kosu: <k>, Odchod v: <t+k·tn>", time, camel, storage);
     }
 
-    public boolean isPossibleToProcess(Request request) throws Exception {
+    private boolean isPossibleToProcess(Request request) throws Exception {
         boolean check = true;
         
         //Kontrola, zda je vůbec možné vygenerovat velblouda, který splní úkol.
-        Oasis oasis = (Oasis) Location.getLocationById(request.getOasisId());
-        Storage storage = Map.getNearestStorage(oasis);
-        List<CamelTemplate> templates = CamelTemplate.getCamelTemplates();
+        Storage storage = getPossibleStorage(request);
+        
+        if (storage == null) {
+            check = false;
+        }
         
 
         return check;
     }
+
+    //Zjištění nejlepšího skladu - dbá na dostupnost košů, zda sklad neobsahuje již nějakého velblouda, který by dokončil úkol
+	private Storage getPossibleStorage(Request request) throws Exception {
+		if (!Map.isRendered()) {
+			throw new Exception("Map has not been rendered yet.");
+		}
+
+		List<CamelTemplate> templates = CamelTemplate.getCamelTemplates();
+        double totalTimeWithoutTravel = 0;
+        Storage bestStorage = null;
+        
+        for (Storage storage : Storage.getStorages()) {
+            
+        }
+
+        return null;
+	}
 }

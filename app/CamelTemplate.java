@@ -24,6 +24,8 @@ public class CamelTemplate {
     private int maxLoad;
     /** Generation probability <0;1> */
     private double ratio;
+    /** Current location of camel */
+    private Location location;
 
     /** Current stretchers loaded */
     private Stretcher[] stretchers;
@@ -96,6 +98,14 @@ public class CamelTemplate {
 
     protected double getDistanceMax() {
         return distanceMax;
+    }
+
+    protected void setLocation(Location location) {
+        this.location = location;
+    }
+
+    protected Location getLocation() {
+        return location;
     }
 
     /**

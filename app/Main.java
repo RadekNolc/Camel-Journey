@@ -7,8 +7,6 @@ public class Main {
         /*File file = new File("vstup.txt");
         sc = new Scanner(file);*/
         
-
-        
         //Vytvoření lokací
         Location obj1 = new Storage(10, 10, 3, 1000, 1);
         Location obj2 = new Oasis(0, 0);
