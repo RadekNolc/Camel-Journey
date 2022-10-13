@@ -27,8 +27,28 @@ public class Storage extends Location {
     }
 
     //Zjištění, zda ve skladu je nějaký dostupný koš, vrací true/false
+    public boolean hasAvailableStretcher(int count) { //Přetížení metody
+        return (getAvailableStretcher(count) != null);
+    }
+
     public boolean hasAvailableStretcher() {
         return (getAvailableStretcher() != null);
+    }
+
+    //Navrátí daný počet košů, pokud vrátí null, tak není dostatek košů
+    public Stretcher[] getAvailableStretcher(int count) {
+        Stretcher[] stretchers = new Stretcher[count];
+        for (int i = 0; i < count; i++)
+        {
+            Stretcher s = getAvailableStretcher();
+            if (s == null) {
+                return null;
+            }
+
+            stretchers[i] = s;
+        }
+
+        return stretchers;
     }
 
     //Zjištění prvního dostupného koše
@@ -47,14 +67,7 @@ public class Storage extends Location {
         }
     }
 
-    public Camel generateCamel() throws Exception {
-        Camel camel = Factory.camel();
-        camel.setLocation(this);
-
-        camels.add(camel);
-        return camel;
-    }
-
+    // Zjištění všech skladů
     public static List<Storage> getStorages() {
         List<Storage> storages = new ArrayList<Storage>();
 

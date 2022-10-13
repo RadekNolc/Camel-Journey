@@ -8,7 +8,7 @@ public class Map {
     private static int[][] path;
 
 	//Zjištění nejlepšího skladu (z pohledu ceny)
-	public static Storage getBestStorage(Location to) throws Exception {
+	public static Storage getNearestStorage(Location to) throws Exception {
 		if (!isRendered) {
 			throw new Exception("Map has not been rendered yet.");
 		}

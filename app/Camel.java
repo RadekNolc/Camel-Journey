@@ -6,6 +6,8 @@ public class Camel extends CamelTemplate {
     
     /** Unique identifier */
     private int id;
+    /** Home location (Storage) of camel */
+    private Storage homeStorage;
     /** Current location of camel */
     private Location location;
     /** Constant value (speed) that is generated to current camel */
@@ -50,7 +52,11 @@ public class Camel extends CamelTemplate {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setHomeStorage(Storage storage) {
+        this.homeStorage = storage;
+    }
+
+    private void setLocation(Location location) {
         this.location = location;
     }
 
@@ -60,7 +66,7 @@ public class Camel extends CamelTemplate {
     }
 
     //....
-    public void setStamina(double stamina) {
+    private void setStamina(double stamina) {
         this.stamina = stamina;
     }
 

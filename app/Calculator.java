@@ -25,7 +25,7 @@ public class Calculator {
     public static double normalDistribution(double min, double max) throws Exception {
         Double result = null;
         int tries = 1;
-        int maxTries = 10;
+        int maxTries = 20;
 
         while ((result == null) || (result < min || result > max)) {
             if (tries >= maxTries) throw new Exception("Error while computing normal distribution.");
@@ -55,5 +55,10 @@ public class Calculator {
      */
     public static double directDistance(Location location1, Location location2) {
         return Math.sqrt(Math.abs((location1.getX() - location2.getX()) * (location1.getX() - location2.getX())) + Math.abs((location1.getY() - location2.getY()) * (location1.getY() - location2.getY())));
+    }
+
+    public static double timeToTravel(double distance, double speed) {
+        // t = s / v
+        return distance / speed;
     }
 }
