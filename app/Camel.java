@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Camel class is inherited from Camel Template, this class is responsible for all the camels that comes from template.
  * @author Radek Nolč
@@ -11,10 +15,14 @@ public class Camel extends CamelTemplate {
     /** Constant value (speed) that is generated to current camel */
     private double speed;
     /** How much camel can travel */
+    private double maxStamina;
+    /** How much camel can travel left */
     private double stamina;
 
     /** Next identifier value of camel */
     private static int nextId = 1;
+
+    private static ArrayList<Camel> camels = new ArrayList<Camel>();
 
     /**
      * Constructor of Camel
@@ -33,6 +41,15 @@ public class Camel extends CamelTemplate {
         this.id = nextId++;
         this.speed = Calculator.continuousDistribution(speedMin, speedMax);
         this.stamina = Calculator.normalDistribution(distanceMin, distanceMax);
+        this.maxStamina = this.stamina;
+
+        if (Settings.isTestMode()) {
+            this.speed = 10.0;
+            this.stamina = 20.0;
+            this.maxStamina = this.stamina;
+        }
+
+        camels.add(this);
     }
 
     /**
@@ -40,8 +57,14 @@ public class Camel extends CamelTemplate {
      * @param destination the destination where the camel should go
      */
     public void move(Location destination) {
-        setStamina(getStamina() - getLocation().calculateDirectDistance(destination));
-        setLocation(destination);
+        if (!getLocation().equals(destination)) {
+            setStamina(getStamina() - getLocation().calculateDirectDistance(destination));
+            setLocation(destination);
+        }
+    }
+
+    public void drink() {
+        setStamina(maxStamina);
     }
 
     //Getters and setters, most setters are not needed
@@ -49,8 +72,12 @@ public class Camel extends CamelTemplate {
         return id;
     }
 
+    public Storage getHomeStorage() {
+        return homeStorage;
+    }
+
     public void setHomeStorage(Storage storage) {
-        this.homeStorage = storage;
+        homeStorage = storage;
     }
 
     //Getting speed
@@ -60,11 +87,23 @@ public class Camel extends CamelTemplate {
 
     //....
     private void setStamina(double stamina) {
-        this.stamina = stamina;
+        if (stamina >= maxStamina) {
+            this.stamina = maxStamina;
+        } else {
+            this.stamina = stamina;
+        }
+    }
+
+    public double getMaxStamina() {
+        return maxStamina;
     }
 
     public double getStamina() {
         return stamina;
+    }
+
+    public static List<Camel> getCamels() {
+        return Collections.unmodifiableList(camels);
     }
 
     @Override

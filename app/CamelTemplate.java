@@ -26,12 +26,11 @@ public class CamelTemplate {
     private double ratio;
     /** Current location of camel */
     private Location location;
-
     /** Current stretchers loaded */
-    private Stretcher[] stretchers;
+    private int stretchers;
 
     /** Array List that handles all the camel templates of the program. */
-    private static ArrayList<CamelTemplate> camelTemplates = new ArrayList<>();
+    private static ArrayList<CamelTemplate> camelTemplates = new ArrayList<CamelTemplate>();
 
     /**
      * Constructor of Camel
@@ -53,8 +52,7 @@ public class CamelTemplate {
         this.drinkTime = drinkTime;
         this.maxLoad = maxLoad;
         this.ratio = ratio;
-
-        this.stretchers = new Stretcher[maxLoad];
+        this.stretchers = 0;
 
         if (!(this instanceof Camel)) //Adding to camel templates
             camelTemplates.add(this);
@@ -106,6 +104,14 @@ public class CamelTemplate {
 
     protected Location getLocation() {
         return location;
+    }
+
+    protected int getStretchers() {
+        return stretchers;
+    }
+
+    protected void setStretchers(int count) {
+        this.stretchers = count;
     }
 
     /**

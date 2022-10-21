@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class Map {
 
@@ -97,6 +98,10 @@ public class Map {
             Location from = Location.getLocationById(Path.getPaths().get(i).getFrom().getId());
             Location to = Location.getLocationById(Path.getPaths().get(i).getTo().getId());
             double distance = Calculator.directDistance(from, to);
+			
+			if (Settings.isTestMode()) {
+				distance = 20;
+			}
 
             adj[Path.getPaths().get(i).getFrom().getId()-1][Path.getPaths().get(i).getTo().getId()-1] = Math.min(adj[Path.getPaths().get(i).getFrom().getId()-1][Path.getPaths().get(i).getTo().getId()-1], distance);
             adj[Path.getPaths().get(i).getTo().getId()-1][Path.getPaths().get(i).getFrom().getId()-1] = Math.min(adj[Path.getPaths().get(i).getTo().getId()-1][Path.getPaths().get(i).getFrom().getId()-1], distance);

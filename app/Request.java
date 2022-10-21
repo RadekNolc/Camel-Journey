@@ -12,12 +12,16 @@ public class Request {
     private int id;
     /** Arrival time as double, when the request arrives. */
     private double arrival;
+    /** Camel that handles the request */
+    private Camel camel;
     /** Destination oasis index as int. */
-    private int oasis;
+    private Location oasis;
     /** How many stretchers are needed in destination. */
     private int needed;
     /** Deadline to handle the request. */
     private double deadline;
+    /** Current time */
+    private double currentTime;
 
     /** Next identifier. */
     private static int nextId = 1;
@@ -30,13 +34,15 @@ public class Request {
      * @param oasis destination oasis index (id) as int
      * @param needed how much stretchers are needed in destination
      * @param deadline until what time it is needed to proceed
+     * @throws Exception
      */
-    public Request(double arrival, int oasis, int needed, double deadline) {
+    public Request(double arrival, int oasis, int needed, double deadline) throws Exception {
         this.id = nextId++;
         this.arrival = arrival;
-        this.oasis = oasis;
+        this.oasis = Location.getLocationById(oasis);
         this.needed = needed;
         this.deadline = deadline;
+        this.currentTime = arrival;
 
         requests.add(this);
     }
@@ -49,7 +55,7 @@ public class Request {
         return arrival;
     }
 
-    public int getOasisId() {
+    public Location getOasis() {
         return oasis;
     }
 
@@ -59,6 +65,26 @@ public class Request {
 
     public double getDeadline() {
         return deadline;
+    }
+
+    public double getCurrentTime() {
+        return currentTime;
+    }
+
+    public void increaseCurrentTime(double time) {
+        this.currentTime += time;
+    }
+
+    public void setCurrentTime(double time) {
+        this.currentTime = time;
+    }
+
+    public Camel getCamel() {
+        return camel;
+    }
+
+    public void setCamel(Camel camel) {
+        this.camel = camel;
     }
 
     public static Queue<Request> getRequests() {

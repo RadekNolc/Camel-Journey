@@ -6,8 +6,8 @@ import java.util.List;
 public class Storage extends Location {
     
     //Atributy
-    private Stretcher[] stretchers; //Pole košů
-    private ArrayList<Camel> camels;
+    private int stretchers; //Pole košů
+    private int maxStretchers;
 
     private double fillTime; //Čas do znovunaplnění košů
     private double loadTime; //Čas naložení koše na velblouda
@@ -19,52 +19,24 @@ public class Storage extends Location {
 
         this.fillTime = fillTime;
         this.loadTime = loadTime;
-
-        stretchers = new Stretcher[maxStretchers]; //Vytvoření pole 
-        camels = new ArrayList<>(); //Vytvoření ArrayListu velbloudů
+        this.maxStretchers = maxStretchers;
 
         refillStretchers(); //Naplnění košů
     }
 
     //Zjištění, zda ve skladu je nějaký dostupný koš, vrací true/false
     public boolean hasAvailableStretcher(int count) { //Přetížení metody
-        return (getAvailableStretcher(count) != null);
+        return (count <= stretchers);
     }
 
-    public boolean hasAvailableStretcher() {
-        return (getAvailableStretcher() != null);
-    }
-
-    //Navrátí daný počet košů, pokud vrátí null, tak není dostatek košů
-    public Stretcher[] getAvailableStretcher(int count) {
-        Stretcher[] stretchers = new Stretcher[count];
-        for (int i = 0; i < count; i++)
-        {
-            Stretcher s = getAvailableStretcher();
-            if (s == null) {
-                return null;
-            }
-
-            stretchers[i] = s;
-        }
-
-        return stretchers;
-    }
-
-    //Zjištění prvního dostupného koše
-    public Stretcher getAvailableStretcher() {
-        for (int i = 0; i < stretchers.length; i++) {
-            if (stretchers[i] != null) return stretchers[i];
-        }
-
-        return null;
+    //Funkce sníží počet košů
+    public void removeStretchers(int count) {
+        this.stretchers -= count;
     }
 
     //Znovunaplnění košů do skladu
     public void refillStretchers() {
-        for (int i = 0; i < stretchers.length; i++) {
-            stretchers[i] = new Stretcher(loadTime);
-        }
+        this.stretchers = maxStretchers;
     }
 
     // Zjištění všech skladů
@@ -77,6 +49,29 @@ public class Storage extends Location {
         }
 
         return Collections.unmodifiableList(storages);
+    }
+
+    public double getLoadTime() {
+        return loadTime;
+    }
+
+    public double getFillTime() {
+        return fillTime;
+    }
+
+    /**
+     * Getting camels that are at storage
+     * @return
+     */
+    public List<Camel> getCamels() {
+        List<Camel> result = new ArrayList<Camel>();
+        for (Camel camel : Camel.getCamels()) {
+            if (camel.getLocation().equals(this)) {
+                result.add(camel);
+            }
+        }
+
+        return Collections.unmodifiableList(result);
     }
 
     @Override

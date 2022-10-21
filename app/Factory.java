@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -36,5 +37,13 @@ public class Factory {
         Random random = new Random();
         CamelTemplate template = select[random.nextInt(select.length)];
         return new Camel(template.getName(), template.getSpeedMin(), template.getSpeedMax(), template.getDistanceMin(), template.getDistanceMax(), template.getDrinkTime(), template.getMaxLoad(), template.getRatio());
+    }
+
+    public static Camel camel(Storage homeStorage) throws Exception {
+        Camel camel = camel();
+        camel.setLocation(homeStorage);
+        camel.setHomeStorage(homeStorage);
+
+        return camel;
     }
 }
