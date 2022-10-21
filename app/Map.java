@@ -2,13 +2,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
+/**Rendering map for the simulations and capturing calculation operations
+ */
 public class Map {
-
+	
+	/**Checking if the map is rendered*/
     private static boolean isRendered = false;
+    /**Cost of path*/
     private static double[][] cost;
+    /**path from location to location*/
     private static int[][] path;
 
 	//Zjištění nejbližšího skladu
+    /**Finding the nearest storage on the map
+     * @param to current position on the map
+     * @throws if the map does not yet exist
+     * @throws if there is no storage yet on the map
+     * @return best storage for the most effective run
+     */
 	public static Storage getNearestStorage(Location to) throws Exception {
 		if (!isRendered) {
 			throw new Exception("Map has not been rendered yet.");
@@ -27,7 +38,12 @@ public class Map {
 		if (bestStorage == null) throw new Exception("There is probably no storage on map.");
 		return bestStorage;
 	}
-
+	/**Browsing the whole path from point A to point B and getting all locations on this path
+	 * @param from starting point
+	 * @param to final point
+	 * @throws if the map does not yet exist
+	 * @return all found locations
+	 */
 	public static ArrayList<Location> getLocationsBetween(Location from, Location to) throws Exception
 	{
         if (!isRendered) {
@@ -56,6 +72,12 @@ public class Map {
 	}
 
     // Recursive function to print path of given vertex `u` from source vertex `v`
+	/**Adding location to route
+	 * @param v vortex V (coordinate)
+	 * @param u vortex U (coordinate)
+	 * @param route list where locations will be set using vertices (coordinates)
+	 * @throws if the map does not yet exist
+	 */
 	private static void setLocation(int v, int u, List<Integer> route) throws Exception
 	{
         if (!isRendered) {
@@ -70,6 +92,12 @@ public class Map {
 	}
 
 	//Getting total distance between two locations
+	/**Getting total cost of the path from point to point
+	 * @param from starting point
+	 * @param to final point
+	 * @throws if the map does not yet exist
+	 * return cost of the path
+	 */
 	public static double getTotalDistance(Location from, Location to) throws Exception {
 		if (!isRendered) {
 			throw new Exception("Map has not been rendered yet.");
@@ -77,7 +105,9 @@ public class Map {
 
 		return cost[from.getId() - 1][to.getId() - 1];
 	}
-	
+	/**Calculation the distance of the path
+	 * @return adj ?
+	 */
     private static double[][] calculateLightDistances() throws Exception {
         double[][] adj = new double[Location.getLocations().size()][Location.getLocations().size()];
         double inf = Double.MAX_VALUE;
@@ -111,6 +141,10 @@ public class Map {
     }
 
 	// Function to run the Floyd–Warshall algorithm
+    /** Rendering map by using Floay-Warshall algoritm (graph) to find the most effective way from point to point
+  	 * using new coordinates v,u
+     * @throws if cost is negative
+     */
 	public static void render() throws Exception
 	{
         cost = new double[Location.getLocations().size()][Location.getLocations().size()];

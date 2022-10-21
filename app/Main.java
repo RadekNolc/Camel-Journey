@@ -2,6 +2,9 @@ public class Main {
 
     //public static Scanner sc;
     
+	/**Creating Locations, Paths, CamelTemplates and Requests for the simulation
+	 * 
+	 */
     public static void main(String[] args) throws Exception {
         
         /*File file = new File("vstup.txt");
