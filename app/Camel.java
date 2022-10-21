@@ -12,6 +12,8 @@ public class Camel extends CamelTemplate {
     private int id;
     /** Home location (Storage) of camel */
     private Storage homeStorage;
+    /** When camel arrives to home storage */
+    private double arriveTime;
     /** Constant value (speed) that is generated to current camel */
     private double speed;
     /** How much camel can travel */
@@ -42,10 +44,11 @@ public class Camel extends CamelTemplate {
         this.speed = Calculator.continuousDistribution(speedMin, speedMax);
         this.stamina = Calculator.normalDistribution(distanceMin, distanceMax);
         this.maxStamina = this.stamina;
+        this.arriveTime = 0;
 
         if (Settings.isTestMode()) {
             this.speed = 10.0;
-            this.stamina = 20.0;
+            this.stamina = 40.0;
             this.maxStamina = this.stamina;
         }
 
@@ -83,6 +86,14 @@ public class Camel extends CamelTemplate {
     //Getting speed
     public double getSpeed() {
         return speed;
+    }
+
+    public void setArriveTime(double arriveTime) {
+        this.arriveTime = arriveTime;
+    }
+
+    public double getArriveTime() {
+        return arriveTime;
     }
 
     //....

@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 /**Rendering map for the simulations and capturing calculation operations
  */

@@ -10,6 +10,7 @@ public class Storage extends Location {
     private int maxStretchers;
 
     private double fillTime; //Čas do znovunaplnění košů
+    private double lastFillTime; //Kdy naposled bylo naplněno
     private double loadTime; //Čas naložení koše na velblouda
 
     //Konstruktor s x, y, ....
@@ -21,6 +22,7 @@ public class Storage extends Location {
         this.loadTime = loadTime;
         this.maxStretchers = maxStretchers;
 
+        lastFillTime = 0;
         refillStretchers(); //Naplnění košů
     }
 
@@ -57,6 +59,14 @@ public class Storage extends Location {
 
     public double getFillTime() {
         return fillTime;
+    }
+
+    public double getLastFillTime() {
+        return lastFillTime;
+    }
+
+    public void setLastFillTime(double lastFillTime) {
+        this.lastFillTime = lastFillTime;
     }
 
     /**
