@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -41,8 +40,8 @@ public class Factory {
 
     public static Camel camel(Storage homeStorage) throws Exception {
         Camel camel = camel();
-        camel.setLocation(homeStorage);
         camel.setHomeStorage(homeStorage);
+        camel.setLocation(homeStorage);
 
         return camel;
     }
