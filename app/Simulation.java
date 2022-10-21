@@ -36,18 +36,22 @@ public class Simulation {
         Storage bestStorage = null;
 		double storageExitTime = 0;
 
-        ArrayList<Camel> createdCamels = new ArrayList<Camel>();
-
         for (Camel currentCamel : Camel.getCamels()) { /* Getting if there is already existing camel that can proceed the way. */
-            double localFinishTime = Double.MAX_VALUE;
-            double localExitTime = 0.0;
-            if (!currentCamel.getHomeStorage().hasAvailableStretcher(request.getNeededStretchers())) { //Pokud nejsou dostupné koše, přidá se čekačka na doplnění
-                localExitTime += currentCamel.getHomeStorage().getFillTime();
-            }
-            localExitTime += request.getNeededStretchers() * currentCamel.getHomeStorage().getLoadTime(); //Nakládka
             if (currentCamel.getArriveTime() > request.getArrival()) {
                 continue;
             }
+            
+            double localFinishTime = Double.MAX_VALUE;
+            double localExitTime = 0.0;         
+            if (!currentCamel.getHomeStorage().hasAvailableStretcher(request.getNeededStretchers())) { //Pokud nejsou dostupné koše, přidá se čekačka na doplnění
+                if (currentCamel.getHomeStorage().getLastFillTime() + currentCamel.getHomeStorage().getFillTime() > request.getCurrentTime()) { /* Checking if it is possible to refill storage */
+                    localExitTime += currentCamel.getHomeStorage().getFillTime();
+                } else {
+                    currentCamel.getHomeStorage().refillStretchers();
+                    currentCamel.getHomeStorage().setLastFillTime(request.getCurrentTime());
+                }
+            }
+            localExitTime += request.getNeededStretchers() * currentCamel.getHomeStorage().getLoadTime(); //Nakládka
 
             localFinishTime = testFinishTime(currentCamel.getHomeStorage(), request.getOasis(), currentCamel.getMaxStamina(), currentCamel.getSpeed(), currentCamel.getDrinkTime(), request.getNeededStretchers(), request.getArrival(), request.getDeadline(), localExitTime);
             if (localFinishTime < 0) {
@@ -63,11 +67,18 @@ public class Simulation {
         }
         
         if (camel == null) { /* When there is no already possible camel */
+            ArrayList<Camel> createdCamels = new ArrayList<Camel>();
+
             for (Storage storage : Storage.getStorages()) {
                 double localFinishTime = Double.MAX_VALUE;
                 double localExitTime = 0.0;
                 if (!storage.hasAvailableStretcher(request.getNeededStretchers())) { //Pokud nejsou dostupné koše, přidá se čekačka na doplnění
-                    localExitTime += storage.getFillTime();
+                    if (storage.getLastFillTime() + storage.getFillTime() > request.getCurrentTime()) { /* Checking if it is possible to refill storage */
+                        localExitTime += storage.getFillTime();
+                    } else {
+                        storage.refillStretchers();
+                        storage.setLastFillTime(request.getCurrentTime());
+                    }
                 }
                 localExitTime += request.getNeededStretchers() * storage.getLoadTime(); //Nakládka
 
@@ -75,14 +86,14 @@ public class Simulation {
                     camel = Factory.camel();
                     createdCamels.add(camel);
                     localFinishTime = testFinishTime(storage, request.getOasis(), camel.getMaxStamina(), camel.getSpeed(), camel.getDrinkTime(), request.getNeededStretchers(), request.getArrival(), request.getDeadline(), localExitTime);
-                    isPossibleToProcess = localFinishTime < 0 ? false : true;
+                    isPossibleToProcess = (localFinishTime >= 0) ? true : false;
                 }
 
                 if (localFinishTime == Double.MAX_VALUE) {
                     localFinishTime = testFinishTime(storage, request.getOasis(), camel.getMaxStamina(), camel.getSpeed(), camel.getDrinkTime(), request.getNeededStretchers(), request.getArrival(), request.getDeadline(), localExitTime);
                 }
 
-                if (localFinishTime < bestTime) {
+                if (localFinishTime >= 0 && localFinishTime < bestTime) {
                     storageExitTime = localExitTime;
                     bestTime = localFinishTime;
                     bestStorage = storage;
@@ -98,6 +109,7 @@ public class Simulation {
         }
 
         camel.setStretchers(request.getNeededStretchers()); /* Loading needed stretchers */
+        camel.getHomeStorage().removeStretchers(request.getNeededStretchers()); /* Removing stretchers from storage */
 
         request.setCamel(camel); /* Connecting camel to request */
         request.increaseCurrentTime(storageExitTime);
@@ -188,7 +200,7 @@ public class Simulation {
             }
 
             if (distance > stamina) { /*When it is not possible to reach next step*/
-                return -2;
+                return -1;
             }
 
             currentLocation = step;
@@ -205,7 +217,7 @@ public class Simulation {
 
         
         if (requestArrival + requestDeadline - (currentTime + (neededStretchers * (((Storage) origin).getLoadTime()))) < 0) { /* Checking if delivery is under deadline */
-            return -1;
+            return -2;
         }
 
         currentTime += neededStretchers * ((Storage) origin).getLoadTime();
