@@ -52,15 +52,15 @@ public class Simulation {
         boolean isPossible = false;
         while (!isPossible) {
             camel = Factory.camel(possibleStorage); 
-            isPossible = testCamel(camel, request.getOasis(), request.getNeededStretchers(), request.getDeadline(), exitTime) >= 0 ? true : false;
+            isPossible = testCamel(camel, request.getOasis(), request.getNeededStretchers(), request.getArrival(), request.getDeadline(), exitTime) >= 0 ? true : false;
         }
 
 
         camel.setStretchers(request.getNeededStretchers()); //Naložení košů
         request.setCamel(camel); //Přiřazení velblouda k požadavku
-        request.setCurrentTime(exitTime);
+        request.increaseCurrentTime(exitTime);
 
-        System.out.printf("Cas: %.0f, %s, %s, Nalozeno kosu: %d, Odchod v: %.0f\n", request.getArrival(), camel, possibleStorage, request.getNeededStretchers(), exitTime);
+        System.out.printf("Cas: %.0f, %s, %s, Nalozeno kosu: %d, Odchod v: %.0f\n", request.getArrival(), camel, possibleStorage, request.getNeededStretchers(), request.getCurrentTime());
 	}
 
     /* Předpokladem je mít správného velblouda, jinak se program zacyklí */
@@ -92,12 +92,12 @@ public class Simulation {
             }
         }
 
-        if (request.getDeadline() - (request.getCurrentTime() + (request.getNeededStretchers() * camel.getHomeStorage().getLoadTime())) < 0) {
+        if (request.getArrival() + request.getDeadline() - (request.getCurrentTime() + (request.getNeededStretchers() * camel.getHomeStorage().getLoadTime())) < 0) {
             System.out.printf("Cas: %.0f, %s, Vsichni vymreli, Harpagon zkrachoval, Konec simulace\n", request.getCurrentTime(), camel.getLocation());
             System.exit(0);
         }
 
-        System.out.printf("Cas: %.0f, %s, %s, Vylozeno kosu: %d, Vylozeno v: %.0f, Casova rezerva: %.0f\n", request.getCurrentTime(), camel, camel.getLocation(), request.getNeededStretchers(), request.getCurrentTime() + (request.getNeededStretchers() * camel.getHomeStorage().getLoadTime()), request.getDeadline() - (request.getCurrentTime() + (request.getNeededStretchers() * camel.getHomeStorage().getLoadTime())));
+        System.out.printf("Cas: %.0f, %s, %s, Vylozeno kosu: %d, Vylozeno v: %.0f, Casova rezerva: %.0f\n", request.getCurrentTime(), camel, camel.getLocation(), request.getNeededStretchers(), request.getCurrentTime() + (request.getNeededStretchers() * camel.getHomeStorage().getLoadTime()), request.getArrival() + request.getDeadline() - (request.getCurrentTime() + (request.getNeededStretchers() * camel.getHomeStorage().getLoadTime())));
         request.increaseCurrentTime(request.getNeededStretchers() * camel.getHomeStorage().getLoadTime());
 
         //Cesta zpátky
@@ -128,9 +128,9 @@ public class Simulation {
         camel.setStretchers(0); //Vyložení košů
     }
 
-    private double testCamel(Camel camel, Location destination, int neededStretchers, double deadLine, double exitTime) throws Exception {
+    private double testCamel(Camel camel, Location destination, int neededStretchers, double arrival, double deadLine, double exitTime) throws Exception {
         ArrayList<Location> locations = Map.getLocationsBetween(camel.getLocation(), destination);
-        double currentTime = exitTime;
+        double currentTime = arrival + exitTime;
         double stamina = camel.getMaxStamina();
         Location currentLocation = camel.getLocation();
 
@@ -160,7 +160,7 @@ public class Simulation {
         }
 
         //Deadline check
-        if (deadLine - (currentTime + (neededStretchers * camel.getHomeStorage().getLoadTime())) < 0) {
+        if (arrival + deadLine - (currentTime + (neededStretchers * camel.getHomeStorage().getLoadTime())) < 0) {
             return -1;
         }
 
