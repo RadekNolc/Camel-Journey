@@ -3,7 +3,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Camel Template is class that handles information about possible camels that can be factored.
+ * Camel Template is class that handles information about possible camels that can be generated.
  * @author Radek Nolč
  */
 public class CamelTemplate {
@@ -24,17 +24,12 @@ public class CamelTemplate {
     private int maxLoad;
     /** Generation probability <0;1> */
     private double ratio;
-    /** Current location of camel */
-    private Location location;
-    /** Current stretchers loaded */
-    private int stretchers;
-
-    /** Array List that handles all the camel templates of the program. */
+    /** List that contains all the camel templates of the program. */
     private static ArrayList<CamelTemplate> camelTemplates = new ArrayList<CamelTemplate>();
 
     /**
-     * Constructor of Camel
-     * @param name name of the camel, no blank chararacters
+     * Constructor of Camel Template
+     * @param name name of the camel
      * @param speedMin minimum speed for calculation that can camel have
      * @param speedMax maximum speed for calculation that can camel have
      * @param distanceMin minimum distance for calculation that can camel travel
@@ -52,7 +47,6 @@ public class CamelTemplate {
         this.drinkTime = drinkTime;
         this.maxLoad = maxLoad;
         this.ratio = ratio;
-        this.stretchers = 0;
 
         if (!(this instanceof Camel)) //Adding to camel templates
             camelTemplates.add(this);
@@ -67,56 +61,64 @@ public class CamelTemplate {
     }
 
     /**
-     * Function to return the time of drinking (renewing stamina)
-     * @return how much time it is needed to drink to refresh stamina
+     * Function to return the time of drinking
+     * @return how much time it is needed to drink
      */
     protected double getDrinkTime() {
         return drinkTime;
     }
 
+    /**
+     * Function to get max stretchers load of the camel
+     * @return how many stretchers are possible to load on the camel
+     */
     protected int getMaxLoad() {
         return maxLoad;
     }
 
+    /**
+     * Function to get the ratio of generation for the current template
+     * @return ratio of generation for the current template
+     */
     protected double getRatio() {
         return ratio;
     }
 
+    /**
+     * Function to get minimum speed camel can have from the current template
+     * @return minimum speed camel can have from the current template
+     */
     protected double getSpeedMin() {
         return speedMin;
     }
 
+    /**
+     * Function to get maximum speed camel can have from the current template
+     * @return maximum speed camel can have from the current template
+     */
     protected double getSpeedMax() {
         return speedMax;
     }
 
-    protected double getDistanceMin() {
-        return distanceMin;
-    }
-
+    /**
+     * Function to get maximum distance camel can have from the current template
+     * @return maximum distance camel can have from the current template
+     */
     protected double getDistanceMax() {
         return distanceMax;
     }
 
-    protected void setLocation(Location location) {
-        this.location = location;
-    }
-
-    protected Location getLocation() {
-        return location;
-    }
-
-    protected int getStretchers() {
-        return stretchers;
-    }
-
-    protected void setStretchers(int count) {
-        this.stretchers = count;
+    /**
+     * Function to get minimum speed camel can have from the current template
+     * @return minimum speed camel can have from the current template
+     */    
+    protected double getDistanceMin() {
+        return distanceMin;
     }
 
     /**
-     * Function to get all camel templates
-     * @return unmodifiable list with camel templates
+     * Function to get all possible camels from templates
+     * @return list with all possible camels from templates
      */
     public static List<CamelTemplate> getCamelTemplates() {
         return Collections.unmodifiableList(camelTemplates);

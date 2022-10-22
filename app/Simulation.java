@@ -2,6 +2,10 @@ import java.util.ArrayList;
 
 public class Simulation {
 
+    /**
+     * Function to run the simulation
+     * @throws Exception if there was an error while processing the requests
+     */
     public void run() throws Exception {
         Map.render();
         
@@ -16,20 +20,20 @@ public class Simulation {
     }
 
     /**
-     * Function to call function to receive request
-     * @param request
-     * @throws Exception
+     * Function to inform the user that the request arrived
+     * @param request which request arrived
      */
-    private void receiveRequest(Request request) throws Exception {
-        System.out.printf("Cas: %.0f, %s, %s, Pocet kosu: %d, Deadline: %.0f\n", request.getArrival(), request, request.getOasis(), request.getNeededStretchers(), request.getArrival() + request.getDeadline());
+    private void receiveRequest(Request request) {
+        System.out.printf("Cas: %.0f, %s, %s, Pocet kosu: %d, Deadline: %.0f\n", request.getArrivalTime(), request, request.getOasis(), request.getNeededStretchers(), request.getArrivalTime() + request.getDeadlineTime());
     }
     
-    /*
-     * Zjištění nejlepšího skladu
-     * Vygenerování vhodného velblouda
+    /**
+     * Function to choose best camel and storage, load stretchers on camel and inform user about that
+     * @param request which request to prepare
+     * @throws Exception if there was an error while creating camel or calculating finish time of request
      */
-
-	private void prepareAll(Request request) throws Exception {
+	private void prepareAll(Request request) throws Exception { //TODO: Needs refactoring
+        /* Needed variables */
         Camel camel = null;
         boolean isPossibleToProcess = false;
         double bestTime = Double.MAX_VALUE;
@@ -37,13 +41,13 @@ public class Simulation {
 		double storageExitTime = 0;
 
         for (Camel currentCamel : Camel.getCamels()) { /* Getting if there is already existing camel that can proceed the way. */
-            if (currentCamel.getArriveTime() > request.getArrival()) {
+            if (currentCamel.getArriveTime() > request.getArrivalTime()) {
                 continue;
             }
             
             double localFinishTime = Double.MAX_VALUE;
             double localExitTime = 0.0;         
-            if (!currentCamel.getHomeStorage().hasAvailableStretcher(request.getNeededStretchers())) { //Pokud nejsou dostupné koše, přidá se čekačka na doplnění
+            if (!currentCamel.getHomeStorage().hasAvailableStretcher(request.getNeededStretchers())) { /* If stretchers are not available */
                 if (currentCamel.getHomeStorage().getLastFillTime() + currentCamel.getHomeStorage().getFillTime() > request.getCurrentTime()) { /* Checking if it is possible to refill storage */
                     localExitTime += currentCamel.getHomeStorage().getFillTime();
                 } else {
@@ -53,7 +57,7 @@ public class Simulation {
             }
             localExitTime += request.getNeededStretchers() * currentCamel.getHomeStorage().getLoadTime(); //Nakládka
 
-            localFinishTime = testFinishTime(currentCamel.getHomeStorage(), request.getOasis(), currentCamel.getMaxStamina(), currentCamel.getSpeed(), currentCamel.getDrinkTime(), request.getNeededStretchers(), request.getArrival(), request.getDeadline(), localExitTime);
+            localFinishTime = testFinishTime(currentCamel.getHomeStorage(), request.getOasis(), currentCamel.getMaxStamina(), currentCamel.getSpeed(), currentCamel.getDrinkTime(), request.getNeededStretchers(), request.getArrivalTime(), request.getDeadlineTime(), localExitTime);
             if (localFinishTime < 0) {
                 continue;
             }
@@ -72,7 +76,7 @@ public class Simulation {
             for (Storage storage : Storage.getStorages()) {
                 double localFinishTime = Double.MAX_VALUE;
                 double localExitTime = 0.0;
-                if (!storage.hasAvailableStretcher(request.getNeededStretchers())) { //Pokud nejsou dostupné koše, přidá se čekačka na doplnění
+                if (!storage.hasAvailableStretcher(request.getNeededStretchers())) { /* If stretchers are not available */
                     if (storage.getLastFillTime() + storage.getFillTime() > request.getCurrentTime()) { /* Checking if it is possible to refill storage */
                         localExitTime += storage.getFillTime();
                     } else {
@@ -85,12 +89,12 @@ public class Simulation {
                 while (!isPossibleToProcess) {
                     camel = Factory.camel();
                     createdCamels.add(camel);
-                    localFinishTime = testFinishTime(storage, request.getOasis(), camel.getMaxStamina(), camel.getSpeed(), camel.getDrinkTime(), request.getNeededStretchers(), request.getArrival(), request.getDeadline(), localExitTime);
+                    localFinishTime = testFinishTime(storage, request.getOasis(), camel.getMaxStamina(), camel.getSpeed(), camel.getDrinkTime(), request.getNeededStretchers(), request.getArrivalTime(), request.getDeadlineTime(), localExitTime);
                     isPossibleToProcess = (localFinishTime >= 0) ? true : false;
                 }
 
                 if (localFinishTime == Double.MAX_VALUE) {
-                    localFinishTime = testFinishTime(storage, request.getOasis(), camel.getMaxStamina(), camel.getSpeed(), camel.getDrinkTime(), request.getNeededStretchers(), request.getArrival(), request.getDeadline(), localExitTime);
+                    localFinishTime = testFinishTime(storage, request.getOasis(), camel.getMaxStamina(), camel.getSpeed(), camel.getDrinkTime(), request.getNeededStretchers(), request.getArrivalTime(), request.getDeadlineTime(), localExitTime);
                 }
 
                 if (localFinishTime >= 0 && localFinishTime < bestTime) {
@@ -114,9 +118,14 @@ public class Simulation {
         request.setCamel(camel); /* Connecting camel to request */
         request.increaseCurrentTime(storageExitTime);
 
-        System.out.printf("Cas: %.0f, %s, %s, Nalozeno kosu: %d, Odchod v: %.0f\n", request.getArrival(), camel, bestStorage, request.getNeededStretchers(), request.getCurrentTime());
+        System.out.printf("Cas: %.0f, %s, %s, Nalozeno kosu: %d, Odchod v: %.0f\n", request.getArrivalTime(), camel, bestStorage, request.getNeededStretchers(), request.getCurrentTime());
 	}
 
+    /**
+     * Function to process request - camel journey to destination oasis and back to home storage and inform user about that
+     * @param request which request to process
+     * @throws Exception if there was an error processing the request
+     */
     private void processRequest(Request request) throws Exception {
         Camel camel = request.getCamel();
         ArrayList<Location> locations = Map.getLocationsBetween(camel.getLocation(), request.getOasis());
@@ -146,13 +155,13 @@ public class Simulation {
         }
 
         /* Checking if camel delivered stretchers on time, if not, exits simulation */
-        if (request.getArrival() + request.getDeadline() - (request.getCurrentTime() + (request.getNeededStretchers() * camel.getHomeStorage().getLoadTime())) < 0) {
+        if (request.getArrivalTime() + request.getDeadlineTime() - (request.getCurrentTime() + (request.getNeededStretchers() * camel.getHomeStorage().getLoadTime())) < 0) {
             System.out.printf("Cas: %.0f, %s, Vsichni vymreli, Harpagon zkrachoval, Konec simulace\n", request.getCurrentTime(), camel.getLocation());
             System.exit(0);
         }
 
         camel.setStretchers(0); /* Unload stretchers */
-        System.out.printf("Cas: %.0f, %s, %s, Vylozeno kosu: %d, Vylozeno v: %.0f, Casova rezerva: %.0f\n", request.getCurrentTime(), camel, camel.getLocation(), request.getNeededStretchers(), request.getCurrentTime() + (request.getNeededStretchers() * camel.getHomeStorage().getLoadTime()), request.getArrival() + request.getDeadline() - (request.getCurrentTime() + (request.getNeededStretchers() * camel.getHomeStorage().getLoadTime())));
+        System.out.printf("Cas: %.0f, %s, %s, Vylozeno kosu: %d, Vylozeno v: %.0f, Casova rezerva: %.0f\n", request.getCurrentTime(), camel, camel.getLocation(), request.getNeededStretchers(), request.getCurrentTime() + (request.getNeededStretchers() * camel.getHomeStorage().getLoadTime()), request.getArrivalTime() + request.getDeadlineTime() - (request.getCurrentTime() + (request.getNeededStretchers() * camel.getHomeStorage().getLoadTime())));
         request.increaseCurrentTime(request.getNeededStretchers() * camel.getHomeStorage().getLoadTime());
 
         /* Travelling back from the destination oasis to origin storage */
@@ -184,9 +193,23 @@ public class Simulation {
         camel.setArriveTime(request.getCurrentTime()); /* "Disabling" camel for specific time */
     }
 
-    private double testFinishTime(Location origin, Location destination, double maxStamina, double speed, double drinkTime, int neededStretchers, double requestArrival, double requestDeadline, double storageExitTime) throws Exception {
+    /**
+     * Function to calculate possible finish time of request
+     * @param origin at which storage journey starts
+     * @param destination at which oasis journey ends
+     * @param maxStamina what is the maximum distance to travel without drinking
+     * @param speed what is the speed of camel
+     * @param drinkTime what is the drink time of camel
+     * @param neededStretchers how many stretchers are needed to finish the request
+     * @param requestArrivalTime when did request arrive
+     * @param requestDeadlineTime when is the deadline for the request
+     * @param storageExitTime when it is possible to exit storage
+     * @return possible finish time of request, if returns lower than 0, it is not possible to proceed
+     * @throws Exception if there was an error on map e.g.: could not be found location by ID
+     */
+    private double testFinishTime(Storage origin, Oasis destination, double maxStamina, double speed, double drinkTime, int neededStretchers, double requestArrivalTime, double requestDeadlineTime, double storageExitTime) throws Exception {
         ArrayList<Location> locations = Map.getLocationsBetween(origin, destination);
-        double currentTime = requestArrival + storageExitTime;
+        double currentTime = requestArrivalTime + storageExitTime;
         double stamina = maxStamina;
         Location currentLocation = origin;
 
@@ -216,7 +239,7 @@ public class Simulation {
         }
 
         
-        if (requestArrival + requestDeadline - (currentTime + (neededStretchers * (((Storage) origin).getLoadTime()))) < 0) { /* Checking if delivery is under deadline */
+        if (requestArrivalTime + requestDeadlineTime - (currentTime + (neededStretchers * (((Storage) origin).getLoadTime()))) < 0) { /* Checking if delivery is under deadline */
             return -2;
         }
 

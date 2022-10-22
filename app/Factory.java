@@ -2,7 +2,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Factory class is used to create custom instances of objects. This class is used for creating instances by ratio.
+ * Factory class is used to create custom instances of objects.
  * @author Radek Nolč
  */
 public class Factory {
@@ -38,6 +38,12 @@ public class Factory {
         return new Camel(template.getName(), template.getSpeedMin(), template.getSpeedMax(), template.getDistanceMin(), template.getDistanceMax(), template.getDrinkTime(), template.getMaxLoad(), template.getRatio());
     }
 
+    /**
+     * Creating new instance of camel from randomly selected template with ratio, setting home storage of the new instance (camel)
+     * @param homeStorage which storage to set as home storage for the new instance (camel)
+     * @return new camel created from selected template with generated attributes (distance, speed) and location + home storage.
+     * @throws Exception if the ratio sum of templates is over / under 1.0 
+     */
     public static Camel camel(Storage homeStorage) throws Exception {
         Camel camel = camel();
         camel.setHomeStorage(homeStorage);

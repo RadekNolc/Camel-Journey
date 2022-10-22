@@ -1,47 +1,25 @@
 import java.util.ArrayList;
 import java.util.List;
 
-/**Rendering map for the simulations and capturing calculation operations
+/**
+ * Map class handles all the functions connected to imaginary map
+ * @author Radek Nolč
  */
 public class Map {
 	
-	/**Checking if the map is rendered*/
+	/** If map is rendered */
     private static boolean isRendered = false;
-    /**Cost of path*/
+    /** Cost (distance) of paths */
     private static double[][] cost;
-    /**path from location to location*/
+    /** Paths between all locations */
     private static int[][] path;
 
-	//Zjištění nejbližšího skladu
-    /**Finding the nearest storage on the map
-     * @param to current position on the map
-     * @throws if the map does not yet exist
-     * @throws if there is no storage yet on the map
-     * @return best storage for the most effective run
-     */
-	public static Storage getNearestStorage(Location to) throws Exception {
-		if (!isRendered) {
-			throw new Exception("Map has not been rendered yet.");
-		}
-
-		double bestDistance = Double.MAX_VALUE;
-		Storage bestStorage = null;
-		for (Storage storage : Storage.getStorages()) {
-			double distance = getTotalDistance(storage, to);
-			if (distance < bestDistance) {
-				bestDistance = distance;
-				bestStorage = storage;
-			}			
-		}
-
-		if (bestStorage == null) throw new Exception("There is probably no storage on map.");
-		return bestStorage;
-	}
-	/**Browsing the whole path from point A to point B and getting all locations on this path
-	 * @param from starting point
-	 * @param to final point
-	 * @throws if the map does not yet exist
-	 * @return all found locations
+	/**
+	 * Function to get the whole path from location to another location
+	 * @param from starting (origin) location
+	 * @param to final location (destination)
+	 * @throws Exception if the has not been rendered yet
+	 * @return list of locations between origin location and destination
 	 */
 	public static ArrayList<Location> getLocationsBetween(Location from, Location to) throws Exception
 	{
@@ -70,12 +48,12 @@ public class Map {
         throw new Exception("Could not find path between these locations.");
 	}
 
-    // Recursive function to print path of given vertex `u` from source vertex `v`
-	/**Adding location to route
-	 * @param v vortex V (coordinate)
-	 * @param u vortex U (coordinate)
-	 * @param route list where locations will be set using vertices (coordinates)
-	 * @throws if the map does not yet exist
+	/**
+	 * Function to add location to route
+	 * @param v vertex V (location ID)
+	 * @param u vertex U (location ID)
+	 * @param route list where locations will be set using vertices (location ID)
+	 * @throws Exception if the has not been rendered yet
 	 */
 	private static void setLocation(int v, int u, List<Integer> route) throws Exception
 	{
@@ -90,12 +68,12 @@ public class Map {
 		route.add(path[v][u]);
 	}
 
-	//Getting total distance between two locations
-	/**Getting total cost of the path from point to point
-	 * @param from starting point
-	 * @param to final point
-	 * @throws if the map does not yet exist
-	 * return cost of the path
+	/**
+	 * Function to get total distance of the path from location to another location
+	 * @param from starting (origin) location
+	 * @param to final location (destination)
+	 * @throws Exception if the has not been rendered yet
+	 * @return distance between two locations
 	 */
 	public static double getTotalDistance(Location from, Location to) throws Exception {
 		if (!isRendered) {
@@ -104,13 +82,17 @@ public class Map {
 
 		return cost[from.getId() - 1][to.getId() - 1];
 	}
-	/**Calculation the distance of the path
-	 * @return adj ?
+
+	/**
+	 * Function to calculate the light (direct) distances between all locations where is path
+	 * @return adjacency matrix with distances
+	 * @throws Exception if the path is pointing to not existing location(s)
 	 */
     private static double[][] calculateLightDistances() throws Exception {
         double[][] adj = new double[Location.getLocations().size()][Location.getLocations().size()];
         double inf = Double.MAX_VALUE;
 
+		/* Just initialization of the matrix */
         for (int i = 0; i < adj.length; i++) {
             for (int j = 0; j < adj[i].length; j++) {
                 if (i == j) {
@@ -122,13 +104,13 @@ public class Map {
             }
         }
 
-        //Getting the distance
+        /* Getting distances for all paths */
         for (int i = 0; i < Path.getPaths().size(); i++) {
             Location from = Location.getLocationById(Path.getPaths().get(i).getFrom().getId());
             Location to = Location.getLocationById(Path.getPaths().get(i).getTo().getId());
             double distance = Calculator.directDistance(from, to);
 			
-			if (Settings.isTestMode()) {
+			if (Settings.isTestMode()) { /* If the test mode is turned on, all distances is going to be 20 */
 				distance = 20;
 			}
 
@@ -139,10 +121,9 @@ public class Map {
         return adj;
     }
 
-	// Function to run the Floyd–Warshall algorithm
-    /** Rendering map by using Floay-Warshall algoritm (graph) to find the most effective way from point to point
-  	 * using new coordinates v,u
-     * @throws if cost is negative
+    /** 
+	 * Function to render map, getting all shortest paths and distances of all possible Locations
+     * @throws Exception when negative-weight cycle is found
      */
 	public static void render() throws Exception
 	{
@@ -151,19 +132,19 @@ public class Map {
 
         double[][] adjMatrix = calculateLightDistances();
         
-		// base case
+		/* base case */
 		if (adjMatrix == null || adjMatrix.length == 0) {
 			return;
 		}
 
 		int n = adjMatrix.length;
 
-		// initialize cost[] and path[]
+		/* initialize cost[] and path[] */
 		for (int v = 0; v < n; v++)
 		{
 			for (int u = 0; u < n; u++)
 			{
-				// initially, cost would be the same as the weight of the edge
+				/* initially, cost would be the same as the weight of the edge */
 				cost[v][u] = adjMatrix[v][u];
 
 				if (v == u) {
@@ -178,15 +159,17 @@ public class Map {
 			}
 		}
 
-		// run Floyd–Warshall
+		/* run Floyd–Warshall */
 		for (int k = 0; k < n; k++)
 		{
 			for (int v = 0; v < n; v++)
 			{
 				for (int u = 0; u < n; u++)
 				{
-					// If vertex `k` is on the shortest path from `v` to `u`,
-					// then update the value of cost[v][u] and path[v][u]
+					/*
+					* If vertex `k` is on the shortest path from `v` to `u`,
+					* then update the value of cost[v][u] and path[v][u]
+					*/
 
 					if (cost[v][k] != Double.MAX_VALUE
 							&& cost[k][u] != Double.MAX_VALUE
@@ -197,18 +180,31 @@ public class Map {
 					}
 				}
 
-				// if diagonal elements become negative, the
-				// graph contains a negative-weight cycle
+				/*
+				* if diagonal elements become negative, the
+				* graph contains a negative-weight cycle
+				*/
 				if (cost[v][v] < 0)
 					throw new Exception("Negative-weight cycle found!");
 			}
 		}
 
-        isRendered = true;
+        setRendered(true);
 	}
 
+	/**
+	 * Function to get if the map has been rendered
+	 * @return if the map has been rendered
+	 */
 	public static boolean isRendered() {
 		return isRendered;
 	}
 
+	/**
+	 * Function to set if the map has been rendered
+	 * @param value if the map has been rendered
+	 */
+	private static void setRendered(boolean value) {
+		isRendered = value;
+	}
 }

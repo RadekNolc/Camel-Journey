@@ -2,91 +2,133 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Class that handles the request.
+ * Request class handles the all needed information about request.
  * @author Radek Nolč
- * @version 1.0
  */
 public class Request {
     
-    /** Unique identifier of each request. */
+    /** Unique identifier of request */
     private int id;
-    /** Arrival time as double, when the request arrives. */
-    private double arrival;
-    /** Camel that handles the request */
-    private Camel camel;
-    /** Destination oasis index as int. */
-    private Location oasis;
-    /** How many stretchers are needed in destination. */
-    private int needed;
-    /** Deadline to handle the request. */
-    private double deadline;
-    /** Current time */
+    /** Current time of request */
     private double currentTime;
-
-    /** Next identifier. */
+    /** Arrival time (when the request arrives) */
+    private double arrivalTime;
+    /** Camel that processes the request */
+    private Camel camel;
+    /** Destination oasis */
+    private Oasis oasis;
+    /** How many stretchers are needed at destination */
+    private int neededStretchers;
+    /** Deadline time to handle the request */
+    private double deadlineTime;
+    /** Next unique identifier for the new instance  */
     private static int nextId = 1;
-
+    /** Queue of all requests */
     private static Queue<Request> requests = new LinkedList<Request>();
 
     /**
-     * Constructor of request
-     * @param arrival arrival time of the request as double
-     * @param oasis destination oasis index (id) as int
-     * @param needed how much stretchers are needed in destination
-     * @param deadline until what time it is needed to proceed
-     * @throws Exception
+     * Creating a new request
+     * @param arrivalTime arrival time of the request as double
+     * @param oasis destination oasis ID
+     * @param neededStretchers how much stretchers are needed at destination
+     * @param deadlineTime until what time it is needed to proceed
+     * @throws Exception if the location could not be found by ID
      */
-    public Request(double arrival, int oasis, int needed, double deadline) throws Exception {
+    public Request(double arrivalTime, int oasis, int neededStretchers, double deadlineTime) throws Exception {
         this.id = nextId++;
-        this.arrival = arrival;
-        this.oasis = Location.getLocationById(oasis);
-        this.needed = needed;
-        this.deadline = deadline;
-        this.currentTime = arrival;
+        this.arrivalTime = arrivalTime;
+        this.oasis = (Oasis) Location.getLocationById(oasis);
+        this.neededStretchers = neededStretchers;
+        this.deadlineTime = deadlineTime;
+        this.currentTime = arrivalTime;
 
         requests.add(this);
     }
 
+    /**
+     * Function to get ID of request
+     * @return ID of request
+     */
     public int getId() {
         return id;
     }
 
-    public double getArrival() {
-        return arrival;
+    /**
+     * Function to get arrival time of request
+     * @return arrival time of request
+     */
+    public double getArrivalTime() {
+        return arrivalTime;
     }
 
-    public Location getOasis() {
+    /**
+     * Function to get destination oasis
+     * @return destination oasis
+     */
+    public Oasis getOasis() {
         return oasis;
     }
 
+    /**
+     * Function to get count of needed stretchers at destination
+     * @return how many stretchers are needed at destination
+     */
     public int getNeededStretchers() {
-        return needed;
+        return neededStretchers;
     }
 
-    public double getDeadline() {
-        return deadline;
+    /**
+     * Function to get deadline time of request
+     * @return deadline time of request
+     */
+    public double getDeadlineTime() {
+        return deadlineTime;
     }
 
+    /**
+     * Function to get current time of request
+     * @return current time of request
+     */
     public double getCurrentTime() {
         return currentTime;
     }
 
+    /**
+     * Function to increase current time of request
+     * @param time how many units of time to increase to current time
+     */
     public void increaseCurrentTime(double time) {
         this.currentTime += time;
     }
 
+    /**
+     * Function to set current time of request
+     * @param time value to set current time of request
+     */
     public void setCurrentTime(double time) {
         this.currentTime = time;
     }
 
+    /**
+     * Function to get camel that processes the request
+     * @return camel that processes the request
+     */
     public Camel getCamel() {
         return camel;
     }
 
+    /**
+     * Function to set camel that processes the request
+     * @param camel which camel processes the request
+     */
     public void setCamel(Camel camel) {
         this.camel = camel;
     }
 
+    /**
+     * Function to get all requests to proceed
+     * @return queue of requests to proceed
+     */
     public static Queue<Request> getRequests() {
         return requests;
     }

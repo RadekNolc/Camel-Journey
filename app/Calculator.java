@@ -10,8 +10,8 @@ import java.util.Random;
  * <br>
  * @author Radek Nolč
  */
-public class Calculator {
-
+abstract class Calculator {
+    
     /** Instance of Random class */
     private static Random random = new Random();
     
@@ -25,7 +25,7 @@ public class Calculator {
     public static double normalDistribution(double min, double max) throws Exception {
         Double result = null;
         int tries = 1;
-        int maxTries = 20; //Anti-cycle
+        int maxTries = 50; /* Defining maximum tries to not cycle the program */
 
         while ((result == null) || (result < min || result > max)) {
             if (tries >= maxTries) throw new Exception("Error while computing normal distribution.");

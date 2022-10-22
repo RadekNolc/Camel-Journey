@@ -2,56 +2,50 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-//Definice lokace, přidání ID k dané lokaci, k bodu by nemělo smysl
-/**Creating new locations and matching them to Ids*/
-public class Location extends Point {
+/** 
+ * Location class handles the specific location identified by IDs 
+ * @author Radek Nolč
+ */
+abstract class Location extends Point {
     
-    //definice atributu s ID
-	/**ID to match the location*/	
-    private int id;
-    /**?*/
+	/** Unique identifier */	
+    protected int id;
+    /** Next unique identifier for the new instance */
     protected static int nextId = 1;
-
-    /**Creating new Arraylist for future locations*/
+    /** All created locations */
     private static ArrayList<Location> locations = new ArrayList<>();
 
-    //prostě konstruktor, IDčko se přiřazuje v potomcích
-    /**Constructor for location using coordinates and adding it to the list
-     * @param x coordinate X
-     * @param y coordinate Y
+    /**
+     * Creating new location
+     * @param x the coordinate X of the location
+     * @param y the coordinate Y of the location
      */
-    public Location(int x, int y) {
+    protected Location(int x, int y) {
         super(x, y);
         locations.add(this);
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
+    /**
+     * Function to get the ID of the location
+     * @return the id of the location
+     */
+    protected int getId() {
         return id;
     }
     
-    /**Calculator a direct distance from the currect point to destination
-     * @param destination the final destination for calculation using coordinates
-     * @return the calculated distance
-     */
-    public double calculateDirectDistance(Location destination) {
-        return Math.sqrt(Math.abs((getX() - destination.getX()) * (getX() - destination.getX())) + Math.abs((getY() - destination.getY()) * (getY() - destination.getY())));
-    }
-    
-    /**Getting all locations from the list
-     * @return unmodifiablelist with all locations
+    /**
+     * Getting all created locations
+     * @return list including all created locations
      */
     public static List<Location> getLocations() {
         return Collections.unmodifiableList(locations);
     }
     
-    /**Getting location by using ID
-     * @param id
-     * @return the founded location
-     * @throws if the current ID is not match with any location
+    /**
+     * Getting existing location by ID
+     * @param id unique identifier of searched location
+     * @return the found location
+     * @throws Exception if the location with the specified ID does not exist
      */
     public static Location getLocationById(int id) throws Exception {
         Location location = locations.get(id - 1);

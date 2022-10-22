@@ -2,46 +2,103 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-//Třída pro sklad, potomek Lokace
+/**
+ * Storage class handles the specific storage
+ * @author Radek Nolč
+ */
 public class Storage extends Location {
     
-    //Atributy
-    private int stretchers; //Pole košů
+    /** Current count of stretchers available */
+    private int stretchers;
+    /** Maximum of stretchers that can be hold in storage */
     private int maxStretchers;
+    /** How much time it takes to fill again stretchers */
+    private double fillTime; 
+    /** When has been storage filled last */
+    private double lastFillTime;
+    /** How much time it takes to load one stretcher to camel */
+    private double loadTime;
 
-    private double fillTime; //Čas do znovunaplnění košů
-    private double lastFillTime; //Kdy naposled bylo naplněno
-    private double loadTime; //Čas naložení koše na velblouda
-
-    //Konstruktor s x, y, ....
+    /**
+     * Creating new storage
+     * @param x the coordinate X of the storage
+     * @param y the coordinate Y of the storage
+     * @param maxStretchers how many stretchers can storage have
+     * @param fillTime how much time it takes to fill stretchers
+     * @param loadTime how much time it takes to load one stretcher to camel
+     */
     public Storage(int x, int y, int maxStretchers, double fillTime, double loadTime) {
-        super(x, y); //Vytvoření lokace
-        setId(nextId++); //Přiřazení ID
+        super(x, y);
+        id = nextId++;
 
         this.fillTime = fillTime;
         this.loadTime = loadTime;
         this.maxStretchers = maxStretchers;
 
         lastFillTime = 0;
-        refillStretchers(); //Naplnění košů
+        refillStretchers();
     }
 
-    //Zjištění, zda ve skladu je nějaký dostupný koš, vrací true/false
-    public boolean hasAvailableStretcher(int count) { //Přetížení metody
+    /**
+     * Function to get if storage has enough stretchers available
+     * @param count how many stretchers should be available
+     * @return if storage has enough stretchers available returns true, else returns false
+     */
+    public boolean hasAvailableStretcher(int count) { 
         return (count <= stretchers);
     }
 
-    //Funkce sníží počet košů
+    /**
+     * Function to remove stretchers from storage
+     * @param count how many stretchers to remove
+     */
     public void removeStretchers(int count) {
         this.stretchers -= count;
     }
 
-    //Znovunaplnění košů do skladu
+    /**
+     * Function to refill all possible stretchers to maximum
+     */
     public void refillStretchers() {
         this.stretchers = maxStretchers;
     }
 
-    // Zjištění všech skladů
+    /**
+     * Function to get load time of one stretcher
+     * @return load time of one stretcher
+     */
+    public double getLoadTime() {
+        return loadTime;
+    }
+
+    /**
+     * Function to get fill time of stretchers to maximum value
+     * @return fill time of maximum count of stretchers
+     */
+    public double getFillTime() {
+        return fillTime;
+    }
+
+    /**
+     * Function to get when was the last fill time of storage
+     * @return when was the last fill time of storage
+     */
+    public double getLastFillTime() {
+        return lastFillTime;
+    }
+
+    /**
+     * Function to set the last fill time of storage
+     * @param lastFillTime time to set as last fill time of storage
+     */
+    public void setLastFillTime(double lastFillTime) {
+        this.lastFillTime = lastFillTime;
+    }
+
+    /**
+     * Function to get all storages
+     * @return list of all storages
+     */
     public static List<Storage> getStorages() {
         List<Storage> storages = new ArrayList<Storage>();
 
@@ -53,25 +110,9 @@ public class Storage extends Location {
         return Collections.unmodifiableList(storages);
     }
 
-    public double getLoadTime() {
-        return loadTime;
-    }
-
-    public double getFillTime() {
-        return fillTime;
-    }
-
-    public double getLastFillTime() {
-        return lastFillTime;
-    }
-
-    public void setLastFillTime(double lastFillTime) {
-        this.lastFillTime = lastFillTime;
-    }
-
     /**
      * Getting camels that are at storage
-     * @return
+     * @return list of camels that are at storage
      */
     public List<Camel> getCamels() {
         List<Camel> result = new ArrayList<Camel>();

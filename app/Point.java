@@ -1,21 +1,37 @@
-//Definice daného bodu v souřadnicích, matka třídy Lokace
-public class Point {
+/**
+ * Point class handles the X and Y coordinates
+ * @author Radek Nolč
+ */
+abstract class Point {
 
-    //Definice atributů, očekává se int
+    /** X coordinate of point */
     private int x;
+    /** Y coordinate of point */
     private int y;
 
-    //Konstruktor
-    public Point(int x, int y) {
+    /**
+     * Creating point by coordinates
+     * @param x the coordinate X
+     * @param y the coordinate Y
+     */
+    protected Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public int getX() {
+    /**
+     * Function to get X coordinate of point
+     * @return x coordinate of point
+     */
+    protected int getX() {
         return x;
     }
 
-    public int getY() {
+    /**
+     * Function to get Y coordinate of point
+     * @return y coordinate of point
+     */
+    protected int getY() {
         return y;
     }
 }
