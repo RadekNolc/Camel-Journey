@@ -10,6 +10,8 @@ abstract class Location extends Point {
     
 	/** Unique identifier */	
     protected int id;
+    /** index of location */
+    protected int index;
     /** Next unique identifier for the new instance */
     protected static int nextId = 1;
     /** All created locations */
@@ -31,6 +33,14 @@ abstract class Location extends Point {
      */
     protected int getId() {
         return id;
+    }
+
+    /**
+     * Function to get index of the location
+     * @return index of the location
+     */
+    protected int getIndex() {
+        return index;
     }
     
     /**

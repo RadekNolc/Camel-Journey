@@ -18,6 +18,8 @@ public class Storage extends Location {
     private double lastFillTime;
     /** How much time it takes to load one stretcher to camel */
     private double loadTime;
+    /** Next index for the new instance */
+    private static int nextIndex = 1;
 
     /**
      * Creating new storage
@@ -30,6 +32,7 @@ public class Storage extends Location {
     public Storage(int x, int y, int maxStretchers, double fillTime, double loadTime) {
         super(x, y);
         id = nextId++;
+        index = nextIndex++;
 
         this.fillTime = fillTime;
         this.loadTime = loadTime;
@@ -125,8 +128,24 @@ public class Storage extends Location {
         return Collections.unmodifiableList(result);
     }
 
+    /**
+     * Getting existing storage by index
+     * @param index index of searched storage
+     * @return the found storage
+     * @throws Exception if the storage with the specified index does not exist
+     */
+    public static Storage getStorageByIndex(int index) throws Exception {
+        for (Location location : Location.getLocations()) {
+            if (location instanceof Storage && location.getIndex() == index) {
+                return (Storage) location;
+            }
+        }
+
+        throw new Exception("Could not find storage with index " + index);
+    }
+
     @Override
     public String toString() {
-        return String.format("Sklad: %d", getId());
+        return String.format("Sklad: %d", getIndex());
     }
 }

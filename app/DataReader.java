@@ -28,7 +28,7 @@ public class DataReader {
      * Function to read simulation data and clear it from comments etc.
      * @return list of simulation data
      */
-    private ArrayList<String> getData() {
+    private ArrayList<String> getCleanedData() {
         /* Array list with data */
         ArrayList<String> data = new ArrayList<String>();
 
@@ -53,7 +53,7 @@ public class DataReader {
      * @throws NumberFormatException
      */
     public void processData() throws NumberFormatException, Exception {
-        ArrayList<String> data = getData();
+        ArrayList<String> data = getCleanedData();
 
         boolean loaded = false;
         int property = 0;

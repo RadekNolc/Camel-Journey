@@ -29,15 +29,15 @@ public class Request {
     /**
      * Creating a new request
      * @param arrivalTime arrival time of the request as double
-     * @param oasis destination oasis ID
+     * @param oasisIndex destination oasis index
      * @param neededStretchers how much stretchers are needed at destination
      * @param deadlineTime until what time it is needed to proceed
      * @throws Exception if the location could not be found by ID
      */
-    public Request(double arrivalTime, int oasis, int neededStretchers, double deadlineTime) throws Exception {
+    public Request(double arrivalTime, int oasisIndex, int neededStretchers, double deadlineTime) throws Exception {
         this.id = nextId++;
         this.arrivalTime = arrivalTime;
-        this.oasis = (Oasis) Location.getLocationById(oasis);
+        this.oasis = Oasis.getOasisByIndex(oasisIndex);
         this.neededStretchers = neededStretchers;
         this.deadlineTime = deadlineTime;
         this.currentTime = arrivalTime;

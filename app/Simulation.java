@@ -180,8 +180,11 @@ public class Simulation {
 
             if (!cameTo.equals(camel.getHomeStorage())) {
                 if (camel.getStamina() < distance) {
+                    System.out.printf("Cas: %.0f, %s, %s, Ziznivy %s, Pokracovani mozne v: %.0f\n", request.getCurrentTime(), camel, cameTo, camel.getName(), request.getCurrentTime() + camel.getDrinkTime());
                     request.increaseCurrentTime(camel.getDrinkTime());
                     camel.drink();
+                } else {
+                    System.out.printf("Cas: %.0f, %s, %s, Kuk na velblouda\n", request.getCurrentTime(), camel, cameTo);
                 }
             }
         }

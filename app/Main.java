@@ -36,12 +36,12 @@ public class Main {
             Path path37 = new Path(3, 7);
 
             /* Creating camel templates */
-            CamelTemplate pomaly = new CamelTemplate("Pomaly", 5, 10, 10, 50, 1, 1, 0.75);
-            CamelTemplate ziznivy = new CamelTemplate("Ziznivy", 10, 10, 1, 1, 10, 1, 0.25);
+            CamelTemplate pomaly = new CamelTemplate("Pomaly", 5, 10, 10, 50, 1, 1, 0.50);
+            CamelTemplate ziznivy = new CamelTemplate("Ziznivy", 10, 10, 1, 1, 10, 1, 0.50);
 
             /* Creating requests */
-            Request request1 = new Request(0, 3, 3, 30);
-            Request request2 = new Request(20, 2, 1, 20);
+            Request request1 = new Request(0, 2, 3, 30);
+            //Request request2 = new Request(20, 2, 1, 20);
         } else { /* Reading from file */
             DataReader reader = new DataReader(new File(Settings.getInputFile())); /* Initialization of data reader */
             reader.processData(); /* Process data */
