@@ -12,7 +12,7 @@ public class Oasis extends Location {
      * @param x the coordinate X of the oasis
      * @param y the coordinate Y of the oasis
      */
-    public Oasis(int x, int y) {
+    public Oasis(double x, double y) {
         super(x, y);
         id = nextId++;
         index = nextIndex++;

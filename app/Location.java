@@ -22,7 +22,7 @@ abstract class Location extends Point {
      * @param x the coordinate X of the location
      * @param y the coordinate Y of the location
      */
-    protected Location(int x, int y) {
+    protected Location(double x, double y) {
         super(x, y);
         locations.add(this);
     }

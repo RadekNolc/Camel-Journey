@@ -29,7 +29,7 @@ public class Storage extends Location {
      * @param fillTime how much time it takes to fill stretchers
      * @param loadTime how much time it takes to load one stretcher to camel
      */
-    public Storage(int x, int y, int maxStretchers, double fillTime, double loadTime) {
+    public Storage(double x, double y, int maxStretchers, double fillTime, double loadTime) {
         super(x, y);
         id = nextId++;
         index = nextIndex++;
@@ -63,7 +63,7 @@ public class Storage extends Location {
      * Function to refill all possible stretchers to maximum
      */
     public void refillStretchers() {
-        this.stretchers = maxStretchers;
+        this.stretchers += maxStretchers - stretchers;
     }
 
     /**

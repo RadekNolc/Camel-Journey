@@ -5,16 +5,16 @@
 abstract class Point {
 
     /** X coordinate of point */
-    private int x;
+    private double x;
     /** Y coordinate of point */
-    private int y;
+    private double y;
 
     /**
      * Creating point by coordinates
      * @param x the coordinate X
      * @param y the coordinate Y
      */
-    protected Point(int x, int y) {
+    protected Point(double x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -23,7 +23,7 @@ abstract class Point {
      * Function to get X coordinate of point
      * @return x coordinate of point
      */
-    protected int getX() {
+    protected double getX() {
         return x;
     }
 
@@ -31,7 +31,7 @@ abstract class Point {
      * Function to get Y coordinate of point
      * @return y coordinate of point
      */
-    protected int getY() {
+    protected double getY() {
         return y;
     }
 }

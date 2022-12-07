@@ -40,8 +40,8 @@ public class Main {
             CamelTemplate ziznivy = new CamelTemplate("Ziznivy", 10, 10, 1, 1, 10, 1, 0.50);
 
             /* Creating requests */
-            Request request1 = new Request(0, 2, 3, 30);
-            //Request request2 = new Request(20, 2, 1, 20);
+            Request request1 = new Request(0, 2, 2, 30);
+            Request request2 = new Request(20, 2, 3, 20);
         } else { /* Reading from file */
             DataReader reader = new DataReader(new File(Settings.getInputFile())); /* Initialization of data reader */
             reader.processData(); /* Process data */
