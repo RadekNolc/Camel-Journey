@@ -7,7 +7,7 @@ abstract class Settings {
     /** If is test mode enabled */
     private static boolean isTestMode = false;
     /** File of input */
-    private static String fileName = "";
+    private static String inputFile = "data/minimal_example.txt";
     /** Comment(s) start text */
     private static String commentStart = "🐪";
     /** Comment(s) end text */
@@ -34,7 +34,7 @@ abstract class Settings {
      * @param file name of file to get data from
      */
     public static void setInputFile(String file) {
-        fileName = file;
+        inputFile = file;
     }
 
     /**
@@ -42,7 +42,7 @@ abstract class Settings {
      * @return file name of input file
      */
     public static String getInputFile() {
-        return fileName;
+        return inputFile;
     }
 
     /**

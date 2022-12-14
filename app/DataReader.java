@@ -84,11 +84,11 @@ public class DataReader {
             /* Getting last comment start */
             int start = commentStarts.get(commentStarts.size() - 1);
             
-            /* Getting neares comment after last comment start */
+            /* Getting nearest comment after last comment start */
             int end = input.indexOf(Settings.getCommentEnd(), start);
             
             /* Removing text in comment */
-            input = input.substring(0, start) + input.substring(end + Settings.getCommentEnd().length(), input.length());
+            input = input.substring(0, start) + " " + input.substring(end + Settings.getCommentEnd().length(), input.length());
             commentStarts.remove(commentStarts.size() - 1);
         }
 
@@ -105,7 +105,7 @@ public class DataReader {
         String data = getCleanedData();
 
         /* Basic init */
-        Pattern anyNumberPattern = Pattern.compile("\\d*\\.?\\d*");
+        Pattern anyNumberPattern = Pattern.compile("\\-?\\d*\\.?\\d*");
         Scanner scanner = null;
 
         int propertyType = 0; /* 0 = storage, 1 = oasis, 2 = path, 3 = camel template, 4 = request */
