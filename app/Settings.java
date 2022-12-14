@@ -4,10 +4,14 @@
  */
 abstract class Settings {
     
-    /** if is test mode enabled */
+    /** If is test mode enabled */
     private static boolean isTestMode = false;
     /** File of input */
     private static String fileName = "";
+    /** Comment(s) start text */
+    private static String commentStart = "🐪";
+    /** Comment(s) end text */
+    private static String commentEnd = "🏜";
 
     /**
      * Function to set state of test mode
@@ -39,5 +43,37 @@ abstract class Settings {
      */
     public static String getInputFile() {
         return fileName;
+    }
+
+    /**
+     * Function to set text which starts the comment
+     * @param start text starting a comment
+     */
+    public static void setCommentStart(String start) {
+        commentStart = start;
+    }
+
+    /**
+     * Function to get text which the comment starts
+     * @return text starting a comment
+     */
+    public static String getCommentStart() {
+        return commentStart;
+    }
+
+    /**
+     * Function to set text which ends the comment
+     * @param start text ending a comment
+     */
+    public static void setCommentEnd(String end) {
+        commentEnd = end;
+    }
+
+    /**
+     * Function to get text which the comment ends
+     * @return text ending a comment
+     */
+    public static String getCommentEnd() {
+        return commentEnd;
     }
 }

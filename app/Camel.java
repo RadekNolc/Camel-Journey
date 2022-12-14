@@ -6,10 +6,12 @@ import java.util.List;
  * Camel class is inherited from Camel Template, this class is responsible for all the camels that are generated from template.
  * @author Radek Nolč
  */
-public class Camel extends CamelTemplate {
+public class Camel {
     
     /** Unique identifier */
     private int id;
+    /** Camel's name */
+    private String name;
     /** Current location of camel */
     private Location location;
     /** Home location (Storage) of camel */
@@ -24,6 +26,10 @@ public class Camel extends CamelTemplate {
     private double stamina;
     /** Current stretchers loaded */
     private int stretchers;
+    /** How much time it takes to drink */
+    private double drinkTime;
+    /** How many stretchers are possible to load */
+    private int maxLoad;
     /** Next unique identifier for the new instance */
     private static int nextId = 1;
     /** All created camels */
@@ -32,21 +38,20 @@ public class Camel extends CamelTemplate {
     /**
      * Constructor of Camel
      * @param name name of the camel
-     * @param speedMin minimum speed for calculation that can camel have
-     * @param speedMax maximum speed for calculation that can camel have
-     * @param distanceMin minimum distance for calculation that can camel travel
-     * @param distanceMax maximum distance for calculation that can camel travel
+     * @param speed speed of the camel
+     * @param maxStamina maximum value of stamina of the camel
      * @param drinkTime how much time it takes to drink
      * @param maxLoad how many stretchers are possible to load
-     * @param ratio generation probability <0;1>
      * @throws Exception if an error occurs during calculation maximum distance
      */
-    public Camel(String name, double speedMin, double speedMax, double distanceMin, double distanceMax, double drinkTime, int maxLoad, double ratio) throws Exception {
-        super(name, speedMin, speedMax, distanceMin, distanceMax, drinkTime, maxLoad, ratio);
+    public Camel(String name, double speed, double maxStamina, double drinkTime, int maxLoad) throws Exception {
         this.id = nextId++;
-        this.speed = Calculator.continuousDistribution(speedMin, speedMax);
-        this.stamina = Calculator.normalDistribution(distanceMin, distanceMax);
-        this.maxStamina = this.stamina;
+        this.name = name;
+        this.speed = speed;
+        this.maxStamina = maxStamina;
+        this.stamina = this.maxStamina;
+        this.drinkTime = drinkTime;
+        this.maxLoad = maxLoad;
         this.arriveTime = 0;
         this.stretchers = 0;
 
@@ -89,11 +94,35 @@ public class Camel extends CamelTemplate {
     }
 
     /**
+     * Function to get the name of the camel
+     * @return default name of the camel (from camel template)
+     */
+    protected String getName() {
+        return name;
+    }
+
+    /**
      * Function to get current location of camel
      * @return current location of camel
      */
     protected Location getLocation() {
         return location;
+    }
+
+    /**
+     * Function to return the time of drinking
+     * @return how much time it is needed to drink
+     */
+    protected double getDrinkTime() {
+        return drinkTime;
+    }
+
+    /**
+     * Function to get max stretchers load of the camel
+     * @return how many stretchers are possible to load on the camel
+     */
+    protected int getMaxLoad() {
+        return maxLoad;
     }
 
     /**

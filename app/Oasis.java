@@ -16,6 +16,10 @@ public class Oasis extends Location {
         super(x, y);
         id = nextId++;
         index = nextIndex++;
+
+        if (Settings.isTestMode()) {
+            System.out.printf("New Oasis created. Attributes > x: %.2f, y: %.2f\n", x, y);
+        }
     }
 
     /**

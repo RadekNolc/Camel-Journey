@@ -40,6 +40,10 @@ public class Storage extends Location {
 
         lastFillTime = 0;
         refillStretchers();
+
+        if (Settings.isTestMode()) {
+            System.out.printf("New Storage created. Attributes > x: %.2f, y: %.2f, maxStretchers: %d, fillTime: %.2f, loadTime: %.2f\n", x, y, maxStretchers, fillTime, loadTime);
+        }
     }
 
     /**

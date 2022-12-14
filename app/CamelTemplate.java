@@ -8,8 +8,8 @@ import java.util.List;
  */
 public class CamelTemplate {
     
-    /** Camel's name */
-    private String name;
+    /** Camel template's name */
+    private String templateName;
     /** Minimum speed for calculation that can camel have */
     private double speedMin;
     /** Maximum speed for calculation that can camel have */
@@ -29,7 +29,7 @@ public class CamelTemplate {
 
     /**
      * Constructor of Camel Template
-     * @param name name of the camel
+     * @param templateName name of the camel template
      * @param speedMin minimum speed for calculation that can camel have
      * @param speedMax maximum speed for calculation that can camel have
      * @param distanceMin minimum distance for calculation that can camel travel
@@ -38,8 +38,8 @@ public class CamelTemplate {
      * @param maxLoad how many stretchers are possible to load
      * @param ratio generation probability <0;1>
      */
-    public CamelTemplate(String name, double speedMin, double speedMax, double distanceMin, double distanceMax, double drinkTime, int maxLoad, double ratio) {
-        this.name = name;
+    public CamelTemplate(String templateName, double speedMin, double speedMax, double distanceMin, double distanceMax, double drinkTime, int maxLoad, double ratio) {
+        this.templateName = templateName;
         this.speedMin = speedMin;
         this.speedMax = speedMax;
         this.distanceMin = distanceMin;
@@ -48,16 +48,19 @@ public class CamelTemplate {
         this.maxLoad = maxLoad;
         this.ratio = ratio;
 
-        if (!(this instanceof Camel)) //Adding to camel templates
-            camelTemplates.add(this);
+        camelTemplates.add(this);
+
+        if (Settings.isTestMode()) {
+            System.out.printf("New Camel Template created. Attributes > templateName: %s, speedMin: %.2f, speedMax: %.2f, distanceMin: %.2f, distanceMax: %.2f, drinkTime: %.2f, maxLoad: %d, ratio: %.2f\n", templateName, speedMin, speedMax, distanceMin, distanceMax, drinkTime, maxLoad, ratio);
+        }
     }
 
     /**
-     * Function to get the name of the camel
-     * @return default name of the camel (from camel template)
+     * Function to get the name of the camel template
+     * @return template name of the camel (from camel template)
      */
-    protected String getName() {
-        return name;
+    protected String getTemplateName() {
+        return templateName;
     }
 
     /**

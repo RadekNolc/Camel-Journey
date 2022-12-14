@@ -43,6 +43,10 @@ public class Request {
         this.currentTime = arrivalTime;
 
         requests.add(this);
+
+        if (Settings.isTestMode()) {
+            System.out.printf("New Request created. Attributes > arrivalTime: %.2f, oasisIndex: %d, neededStretchers: %d, deadlineTime: %.2f\n", arrivalTime, oasisIndex, neededStretchers, deadlineTime);
+        }
     }
 
     /**

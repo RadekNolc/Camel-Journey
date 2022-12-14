@@ -26,6 +26,10 @@ public class Path {
         this.to = Location.getLocationById(to);
 
         paths.add(this);
+
+        if (Settings.isTestMode()) {
+            System.out.printf("New Path created. Attributes > from: %d, to: %d\n", from, to);
+        }
     }
 
     /**

@@ -14,9 +14,10 @@ public class Factory {
      */
     public static Camel camel() throws Exception {
         List<CamelTemplate> templates = CamelTemplate.getCamelTemplates();
-        CamelTemplate[] select = new CamelTemplate[100];
+        int[] select = new int[100];
         int nextIdx = 0;
         
+        int templateIdx = 0;
         for (CamelTemplate template : templates) {
             int leftIterations = (int)(template.getRatio() * 100);
             
@@ -24,9 +25,11 @@ public class Factory {
                 if (nextIdx >= 100)
                     throw new Exception("Camel ratio sum is over value 1.0");
 
-                select[nextIdx] = template;
+                select[nextIdx] = templateIdx;
                 nextIdx++;
             }
+
+            templateIdx++;
         }
 
         if (nextIdx < 100) {
@@ -34,8 +37,10 @@ public class Factory {
         }
 
         Random random = new Random();
-        CamelTemplate template = select[random.nextInt(select.length)];
-        return new Camel(template.getName(), template.getSpeedMin(), template.getSpeedMax(), template.getDistanceMin(), template.getDistanceMax(), template.getDrinkTime(), template.getMaxLoad(), template.getRatio());
+
+        int test = select[random.nextInt(select.length)];
+        CamelTemplate template = templates.get(test);
+        return new Camel(template.getTemplateName(), Calculator.continuousDistribution(template.getSpeedMin(), template.getSpeedMax()), Calculator.normalDistribution(template.getDistanceMin(), template.getDistanceMax()), template.getDrinkTime(), template.getMaxLoad());
     }
 
     /**
