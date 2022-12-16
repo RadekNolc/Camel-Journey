@@ -15,9 +15,17 @@ public class Main {
      */
     public static void main(String[] args) throws Exception {
 
+        if (Settings.isTestMode()) {
+            System.out.println("Probíhá načítání dat...");
+        }
+
         DataReader reader = new DataReader(new File(Settings.getInputFile())); /* Initialization of data reader */
 
         reader.processData(); /* Process data */
+
+        if (Settings.isTestMode()) {
+            System.out.println("Probíhá spuštění simulace...");
+        }
 
         /* Running simulation */
         Simulation simulation = new Simulation();

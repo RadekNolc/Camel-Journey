@@ -13,6 +13,11 @@ public class Simulation {
      */
     public void run() throws Exception {
         Map.render();
+
+        if (Request.getRequests().peek() == null) {
+            System.out.println("Žádné požadavky k odbavení.");
+            return;
+        }
         
         while (Request.getRequests().peek() != null) {
             Request request = Request.getRequests().poll();

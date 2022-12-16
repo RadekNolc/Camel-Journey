@@ -27,7 +27,7 @@ public class DataReader {
      * @return file content as string
      * @throws Exception if there was an error reading input file
      */
-    private StringBuilder readFileAsString() throws Exception {
+    private String readFileAsString() throws Exception {
         StringBuilder fileAsString = new StringBuilder();
         Scanner scanner = null;
         FileInputStream inputStream = null;
@@ -58,7 +58,7 @@ public class DataReader {
             throw new Exception("Dokument nejspíš neobsahuje žádný text.");
         }
 
-        return fileAsString;
+        return fileAsString.toString();
     }
 
     /**
@@ -66,9 +66,9 @@ public class DataReader {
      * @return list of simulation data
      * @throws Exception if there was an error reading file as text
      */
-    private StringBuilder getCleanedData() throws Exception {
+    private String getCleanedData() throws Exception {
         /* Basic init */
-        StringBuilder input = readFileAsString();
+        String input = readFileAsString();
         ArrayList<Integer> commentStarts = new ArrayList<Integer>();
 
         /* Searching for comments */
@@ -88,7 +88,7 @@ public class DataReader {
             int end = input.indexOf(Settings.getCommentEnd(), start);
             
             /* Removing text in comment */
-            input = new StringBuilder(input.substring(0, start) + " " + input.substring(end + Settings.getCommentEnd().length(), input.length()));
+            input = input.substring(0, start) + " " + input.substring(end + Settings.getCommentEnd().length(), input.length());
             commentStarts.remove(commentStarts.size() - 1);
         }
 
@@ -101,7 +101,7 @@ public class DataReader {
      */
     public void processData() throws Exception {
         /* Retrieving data */
-        StringBuilder data = getCleanedData();
+        String data = getCleanedData();
 
         /* Basic init */
         Pattern anyNumberPattern = Pattern.compile(/*"(\\-?\\d*\\.?\\d*)(?:\\^|e)(\\-?\\d*\\.?\\d*)"*/"(\\-?\\d*\\.?\\d*)((?:\\^|e)(\\-?\\d*\\.?\\d*))?");
@@ -111,7 +111,7 @@ public class DataReader {
 
         try {
             /* Reading data using scanner */
-            scanner = new Scanner(data.toString());
+            scanner = new Scanner(data);
 
             /* Reading each number */
             while(scanner.hasNext(anyNumberPattern)) {
