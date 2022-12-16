@@ -7,7 +7,7 @@ abstract class Settings {
     /** If is test mode enabled */
     private static boolean isTestMode = false;
     /** File of input */
-    private static String inputFile = "data/minimal_example.txt";
+    private static String inputFile = "input.txt";
     /** Comment(s) start text */
     private static String commentStart = "🐪";
     /** Comment(s) end text */

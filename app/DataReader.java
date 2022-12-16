@@ -26,8 +26,8 @@ public class DataReader {
      * @return file content as string
      * @throws Exception if there was an error reading input file
      */
-    private String readFileAsString() throws Exception {
-        String fileAsString = "";
+    private StringBuilder readFileAsString() throws Exception {
+        StringBuilder fileAsString = new StringBuilder();
         Scanner scanner = null;
         FileInputStream inputStream = null;
 
@@ -36,8 +36,7 @@ public class DataReader {
             scanner = new Scanner(inputStream);
 
             while (scanner.hasNextLine()) {
-                fileAsString += scanner.nextLine();
-                fileAsString += " "; /* Space instead new line on the end of line */
+                fileAsString.append(scanner.nextLine()).append(" "); /* Space instead new line on the end of line */
             }
 
             if (scanner.ioException() != null) {
@@ -66,9 +65,9 @@ public class DataReader {
      * @return list of simulation data
      * @throws Exception if there was an error reading file as text
      */
-    private String getCleanedData() throws Exception {
+    private StringBuilder getCleanedData() throws Exception {
         /* Basic init */
-        String input = readFileAsString();
+        StringBuilder input = readFileAsString();
         ArrayList<Integer> commentStarts = new ArrayList<Integer>();
 
         /* Searching for comments */
@@ -88,7 +87,7 @@ public class DataReader {
             int end = input.indexOf(Settings.getCommentEnd(), start);
             
             /* Removing text in comment */
-            input = input.substring(0, start) + " " + input.substring(end + Settings.getCommentEnd().length(), input.length());
+            input = new StringBuilder(input.substring(0, start) + " " + input.substring(end + Settings.getCommentEnd().length(), input.length()));
             commentStarts.remove(commentStarts.size() - 1);
         }
 
@@ -102,17 +101,17 @@ public class DataReader {
      */
     public void processData() throws NumberFormatException, Exception {
         /* Retrieving data */
-        String data = getCleanedData();
+        StringBuilder data = getCleanedData();
 
         /* Basic init */
-        Pattern anyNumberPattern = Pattern.compile("\\-?\\d*\\.?\\d*");
+        Pattern anyNumberPattern = Pattern.compile(/*"(\\-?\\d*\\.?\\d*)(?:\\^|e)(\\-?\\d*\\.?\\d*)"*/"(\\-?\\d*\\.?\\d*)((?:\\^|e)(\\-?\\d*\\.?\\d*))?");
         Scanner scanner = null;
 
         int propertyType = 0; /* 0 = storage, 1 = oasis, 2 = path, 3 = camel template, 4 = request */
 
         try {
             /* Reading data using scanner */
-            scanner = new Scanner(data);
+            scanner = new Scanner(data.toString());
 
             /* Reading each number */
             while(scanner.hasNext(anyNumberPattern)) {
