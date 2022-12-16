@@ -1,3 +1,4 @@
+package cz.radeknolc.cameljourney;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;

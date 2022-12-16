@@ -1,3 +1,5 @@
+package cz.radeknolc.cameljourney;
+
 import java.io.File;
 
 /**

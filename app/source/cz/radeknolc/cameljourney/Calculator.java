@@ -1,3 +1,4 @@
+package cz.radeknolc.cameljourney;
 import java.util.Random;
 
 /**

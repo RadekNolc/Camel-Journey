@@ -1,3 +1,4 @@
+package cz.radeknolc.cameljourney;
 /**
  * Settings class is used to globally configure how program acts
  * @author Radek Nolč

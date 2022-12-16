@@ -1,3 +1,4 @@
+package cz.radeknolc.cameljourney;
 /**
  * Point class handles the X and Y coordinates
  * @author Radek Nolč

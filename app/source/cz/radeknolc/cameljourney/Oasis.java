@@ -1,3 +1,4 @@
+package cz.radeknolc.cameljourney;
 /**
  * Oasis class handles the specific oasis
  * @author Radek Nolč
