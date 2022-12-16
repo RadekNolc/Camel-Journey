@@ -15,10 +15,6 @@ public class Main {
      */
     public static void main(String[] args) throws Exception {
 
-        //TODO: Vymazat
-        Settings.setTestMode(true); /* Setting test mode */
-        Settings.setInputFile("data/parser.txt"); /* Setting input file */
-
         DataReader reader = new DataReader(new File(Settings.getInputFile())); /* Initialization of data reader */
 
         reader.processData(); /* Process data */

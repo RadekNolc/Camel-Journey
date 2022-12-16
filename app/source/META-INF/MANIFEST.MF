@@ -1,0 +1,1 @@
+Main-Class: cz.radeknolc.cameljourney.Main
