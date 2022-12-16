@@ -137,6 +137,10 @@ public class Request {
         return requests;
     }
 
+    /**
+     * Returns a text representation of the request
+     * @return a text representation of the request
+     */
     @Override
     public String toString() {
         return String.format("Pozadavek: %d", getId());

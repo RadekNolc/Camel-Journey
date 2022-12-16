@@ -38,6 +38,10 @@ public class Oasis extends Location {
         throw new Exception("Could not find oasis with index " + index);
     }
 
+    /**
+     * Returns a text representation of the oasis
+     * @return a text representation of the oasis
+     */
     @Override
     public String toString() {
         return String.format("Oaza: %d", getIndex());

@@ -36,7 +36,7 @@ public class CamelTemplate {
      * @param distanceMax maximum distance for calculation that can camel travel
      * @param drinkTime how much time it takes to drink
      * @param maxLoad how many stretchers are possible to load
-     * @param ratio generation probability <0;1>
+     * @param ratio generation probability from 0.00 to 1.00, 1.00 equals to 100 %
      */
     public CamelTemplate(String templateName, double speedMin, double speedMax, double distanceMin, double distanceMax, double drinkTime, int maxLoad, double ratio) {
         this.templateName = templateName;

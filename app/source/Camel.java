@@ -225,6 +225,10 @@ public class Camel {
         return Collections.unmodifiableList(camels);
     }
 
+    /**
+     * Returns a text representation of the camel
+     * @return a text representation of the camel
+     */
     @Override
     public String toString() {
         return String.format("Velbloud: %d", getId());

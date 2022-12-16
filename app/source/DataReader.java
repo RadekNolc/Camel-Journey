@@ -96,10 +96,9 @@ public class DataReader {
 
     /**
      * Function to process data and load it into simulation
-     * @throws Exception
-     * @throws NumberFormatException
+     * @throws Exception if there was an an error during processing data
      */
-    public void processData() throws NumberFormatException, Exception {
+    public void processData() throws Exception {
         /* Retrieving data */
         StringBuilder data = getCleanedData();
 

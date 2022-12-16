@@ -148,6 +148,10 @@ public class Storage extends Location {
         throw new Exception("Could not find storage with index " + index);
     }
 
+    /**
+     * Returns a text representation of the storage
+     * @return a text representation of the storage
+     */
     @Override
     public String toString() {
         return String.format("Sklad: %d", getIndex());

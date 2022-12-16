@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+/**
+ * Simulation class handles the whole program simulation logic
+ * @author Radek Nolč
+ */
 public class Simulation {
 
     /**
