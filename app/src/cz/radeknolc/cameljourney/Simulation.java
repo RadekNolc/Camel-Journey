@@ -1,5 +1,6 @@
 package cz.radeknolc.cameljourney;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Simulation class handles the whole program simulation logic
@@ -9,9 +10,10 @@ public class Simulation {
 
     /**
      * Function to run the simulation
-     * @throws Exception if there was an error while processing the requests
+     * @throws RuntimeException if there was an error while processing the requests
+     * @throws NoSuchFieldException if the map has not been rendered
      */
-    public void run() throws Exception {
+    public void run() throws RuntimeException, NoSuchFieldException {
         Map.render();
 
         if (Request.getRequests().peek() == null) {
@@ -40,9 +42,9 @@ public class Simulation {
     /**
      * Function to choose best camel and storage, load stretchers on camel and inform user about that
      * @param request which request to prepare
-     * @throws Exception if there was an error while creating camel or calculating finish time of request
+     * @throws NoSuchFieldException if the map has not been rendered yet
      */
-	private void prepareAll(Request request) throws Exception { //TODO: Needs refactoring
+	private void prepareAll(Request request) throws NoSuchFieldException { //TODO: Needs refactoring
         /* Needed variables */
         Camel camel = null;
         boolean isPossibleToProcess = false;
@@ -134,11 +136,11 @@ public class Simulation {
     /**
      * Function to process request - camel journey to destination oasis and back to home storage and inform user about that
      * @param request which request to process
-     * @throws Exception if there was an error processing the request
+     * @throws NoSuchFieldException if there was an error processing the request on camels side
      */
-    private void processRequest(Request request) throws Exception {
+    private void processRequest(Request request) throws NoSuchFieldException {
         Camel camel = request.getCamel();
-        ArrayList<Location> locations = Map.getLocationsBetween(camel.getLocation(), request.getOasis());
+        List<Location> locations = Map.getLocationsBetween(camel.getLocation(), request.getOasis());
 
         /* Travelling to the destination from the origin storage */
         for (Location step : locations) {
@@ -218,10 +220,10 @@ public class Simulation {
      * @param requestDeadlineTime when is the deadline for the request
      * @param storageExitTime when it is possible to exit storage
      * @return possible finish time of request, if returns lower than 0, it is not possible to proceed
-     * @throws Exception if there was an error on map e.g.: could not be found location by ID
+     * @throws NoSuchFieldException if there was an error on map e.g.: could not be found location by ID
      */
-    private double testFinishTime(Storage origin, Oasis destination, double maxStamina, double speed, double drinkTime, int neededStretchers, double requestArrivalTime, double requestDeadlineTime, double storageExitTime) throws Exception {
-        ArrayList<Location> locations = Map.getLocationsBetween(origin, destination);
+    private double testFinishTime(Storage origin, Oasis destination, double maxStamina, double speed, double drinkTime, int neededStretchers, double requestArrivalTime, double requestDeadlineTime, double storageExitTime) throws NoSuchFieldException {
+        List<Location> locations = Map.getLocationsBetween(origin, destination);
         double currentTime = requestArrivalTime + storageExitTime;
         double stamina = maxStamina;
         Location currentLocation = origin;
@@ -243,11 +245,9 @@ public class Simulation {
             stamina -= distance;
             currentTime += Calculator.timeToTravel(distance, speed);
 
-            if (!comeTo.equals(destination)) { /* When camel next step is not destination, check for stamina and eventually drink */
-                if (stamina < distance) {
-                    currentTime += drinkTime;
-                    stamina = maxStamina;
-                }
+            if (!comeTo.equals(destination) && stamina < distance) { /* When camel next step is not destination, check for stamina and eventually drink */
+                currentTime += drinkTime;
+                stamina = maxStamina;
             }
         }
 

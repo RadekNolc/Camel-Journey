@@ -10,9 +10,9 @@ import java.util.List;
 public class Camel {
     
     /** Unique identifier */
-    private int id;
+    private final int id;
     /** Camel's name */
-    private String name;
+    private final String name;
     /** Current location of camel */
     private Location location;
     /** Home location (Storage) of camel */
@@ -20,21 +20,21 @@ public class Camel {
     /** When camel arrives to home storage after journey */
     private double arriveTime;
     /** Constant value (speed) that is generated to current camel */
-    private double speed;
+    private final double speed;
     /** How much camel can travel at maximum */
-    private double maxStamina;
+    private final double maxStamina;
     /** How much camel can travel left */
     private double stamina;
     /** Current stretchers loaded */
     private int stretchers;
     /** How much time it takes to drink */
-    private double drinkTime;
+    private final double drinkTime;
     /** How many stretchers are possible to load */
-    private int maxLoad;
+    private final int maxLoad;
     /** Next unique identifier for the new instance */
     private static int nextId = 1;
     /** All created camels */
-    private static ArrayList<Camel> camels = new ArrayList<Camel>();
+    private static List<Camel> camels = new ArrayList<Camel>();
 
     /**
      * Constructor of Camel
@@ -43,9 +43,8 @@ public class Camel {
      * @param maxStamina maximum value of stamina of the camel
      * @param drinkTime how much time it takes to drink
      * @param maxLoad how many stretchers are possible to load
-     * @throws Exception if an error occurs during calculation maximum distance
      */
-    public Camel(String name, double speed, double maxStamina, double drinkTime, int maxLoad) throws Exception {
+    public Camel(String name, double speed, double maxStamina, double drinkTime, int maxLoad) {
         this.id = nextId++;
         this.name = name;
         this.speed = speed;
@@ -56,22 +55,15 @@ public class Camel {
         this.arriveTime = 0;
         this.stretchers = 0;
 
-        /** Unified test mode settings */
-        if (Settings.isTestMode()) {
-            this.speed = 10.0;
-            this.stamina = 40.0;
-            this.maxStamina = this.stamina;
-        }
-
         camels.add(this);
     }
 
     /**
      * Moves the camel to the specified location, decreases stamina of the camel upon location distance
      * @param destination where the camel should travel
-     * @throws Exception if map has not been rendered yet
+     * @throws NoSuchFieldException if map has not been rendered yet
      */
-    public void move(Location destination) throws Exception {
+    public void move(Location destination) throws NoSuchFieldException {
         double distance = Map.getTotalDistance(getLocation(), destination);
         if (!getLocation().equals(destination) && getStamina() >= distance) {
             setStamina(getStamina() - distance);

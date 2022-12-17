@@ -9,19 +9,19 @@ import java.util.Queue;
 public class Request {
     
     /** Unique identifier of request */
-    private int id;
+    private final int id;
     /** Current time of request */
     private double currentTime;
     /** Arrival time (when the request arrives) */
-    private double arrivalTime;
+    private final double arrivalTime;
     /** Camel that processes the request */
     private Camel camel;
     /** Destination oasis */
-    private Oasis oasis;
+    private final Oasis oasis;
     /** How many stretchers are needed at destination */
-    private int neededStretchers;
+    private final int neededStretchers;
     /** Deadline time to handle the request */
-    private double deadlineTime;
+    private final double deadlineTime;
     /** Next unique identifier for the new instance  */
     private static int nextId = 1;
     /** Queue of all requests */
@@ -33,9 +33,9 @@ public class Request {
      * @param oasisIndex destination oasis index
      * @param neededStretchers how much stretchers are needed at destination
      * @param deadlineTime until what time it is needed to proceed
-     * @throws Exception if the location could not be found by ID
+     * @throws NullPointerException if the location could not be found by ID
      */
-    public Request(double arrivalTime, int oasisIndex, int neededStretchers, double deadlineTime) throws Exception {
+    public Request(double arrivalTime, int oasisIndex, int neededStretchers, double deadlineTime) throws NullPointerException {
         this.id = nextId++;
         this.arrivalTime = arrivalTime;
         this.oasis = Oasis.getOasisByIndex(oasisIndex);
@@ -44,10 +44,6 @@ public class Request {
         this.currentTime = arrivalTime;
 
         requests.add(this);
-
-        if (Settings.isTestMode()) {
-            System.out.printf("New Request created. Attributes > arrivalTime: %.2f, oasisIndex: %d, neededStretchers: %d, deadlineTime: %.2f\n", arrivalTime, oasisIndex, neededStretchers, deadlineTime);
-        }
     }
 
     /**

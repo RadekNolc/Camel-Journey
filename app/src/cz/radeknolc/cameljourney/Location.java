@@ -16,7 +16,7 @@ abstract class Location extends Point {
     /** Next unique identifier for the new instance */
     protected static int nextId = 1;
     /** All created locations */
-    private static ArrayList<Location> locations = new ArrayList<>();
+    private static List<Location> locations = new ArrayList<>();
 
     /**
      * Creating new location
@@ -56,14 +56,14 @@ abstract class Location extends Point {
      * Getting existing location by ID
      * @param id unique identifier of searched location
      * @return the found location
-     * @throws Exception if the location with the specified ID does not exist
+     * @throws NullPointerException if the location with the specified ID does not exist
      */
-    public static Location getLocationById(int id) throws Exception {
+    public static Location getLocationById(int id) throws NullPointerException {
         Location location = locations.get(id - 1);
         if (location != null) {
             return location;
         }
 
-        throw new Exception("Could not find Location with ID " + id);
+        throw new NullPointerException("Could not find Location with ID " + id);
     }
 }

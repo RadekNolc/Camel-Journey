@@ -19,16 +19,16 @@ public class Map {
 	 * Function to get the whole path from location to another location
 	 * @param from starting (origin) location
 	 * @param to final location (destination)
-	 * @throws Exception if the has not been rendered yet
+	 * @throws NoSuchFieldException if the has not been rendered yet
 	 * @return list of locations between origin location and destination
 	 */
-	public static ArrayList<Location> getLocationsBetween(Location from, Location to) throws Exception
+	public static List<Location> getLocationsBetween(Location from, Location to) throws NoSuchFieldException
 	{
         if (!isRendered) {
-            throw new Exception("Map has not been rendered yet.");
+            throw new NoSuchFieldException("Map has not been rendered yet.");
         }
 
-        ArrayList<Location> locations = new ArrayList<>();
+        List<Location> locations = new ArrayList<>();
         int u = from.getId() - 1;
         int v = to.getId() - 1;
         
@@ -46,7 +46,7 @@ public class Map {
             return locations;
         }
 
-        throw new Exception("Could not find path between these locations.");
+        throw new NoSuchFieldException("Could not find path between these locations.");
 	}
 
 	/**
@@ -54,12 +54,12 @@ public class Map {
 	 * @param v vertex V (location ID)
 	 * @param u vertex U (location ID)
 	 * @param route list where locations will be set using vertices (location ID)
-	 * @throws Exception if the has not been rendered yet
+	 * @throws NoSuchFieldException if the has not been rendered yet
 	 */
-	private static void setLocation(int v, int u, List<Integer> route) throws Exception
+	private static void setLocation(int v, int u, List<Integer> route) throws NoSuchFieldException
 	{
         if (!isRendered) {
-            throw new Exception("Map has not been rendered yet.");
+            throw new NoSuchFieldException("Map has not been rendered yet.");
         }
             
 		if (path[v][u] == v) {
@@ -73,12 +73,12 @@ public class Map {
 	 * Function to get total distance of the path from location to another location
 	 * @param from starting (origin) location
 	 * @param to final location (destination)
-	 * @throws Exception if the has not been rendered yet
+	 * @throws NoSuchFieldException if the has not been rendered yet
 	 * @return distance between two locations
 	 */
-	public static double getTotalDistance(Location from, Location to) throws Exception {
+	public static double getTotalDistance(Location from, Location to) throws NoSuchFieldException {
 		if (!isRendered) {
-			throw new Exception("Map has not been rendered yet.");
+			throw new NoSuchFieldException("Map has not been rendered yet.");
 		}
 
 		return cost[from.getId() - 1][to.getId() - 1];
@@ -87,9 +87,9 @@ public class Map {
 	/**
 	 * Function to calculate the light (direct) distances between all locations where is path
 	 * @return adjacency matrix with distances
-	 * @throws Exception if the path is pointing to not existing location(s)
+	 * @throws NullPointerException if the path is pointing to not existing location(s)
 	 */
-    private static double[][] calculateLightDistances() throws Exception {
+    private static double[][] calculateLightDistances() throws NullPointerException {
         double[][] adj = new double[Location.getLocations().size()][Location.getLocations().size()];
         double inf = Double.MAX_VALUE;
 
@@ -124,9 +124,8 @@ public class Map {
 
     /** 
 	 * Function to render map, getting all shortest paths and distances of all possible Locations
-     * @throws Exception when negative-weight cycle is found
      */
-	public static void render() throws Exception
+	public static void render()
 	{
         cost = new double[Location.getLocations().size()][Location.getLocations().size()];
         path = new int[Location.getLocations().size()][Location.getLocations().size()];
@@ -134,7 +133,7 @@ public class Map {
         double[][] adjMatrix = calculateLightDistances();
         
 		/* base case */
-		if (adjMatrix == null || adjMatrix.length == 0) {
+		if (adjMatrix.length == 0) {
 			return;
 		}
 
@@ -185,8 +184,10 @@ public class Map {
 				* if diagonal elements become negative, the
 				* graph contains a negative-weight cycle
 				*/
-				if (cost[v][v] < 0)
-					throw new Exception("Negative-weight cycle found!");
+				if (cost[v][v] < 0) {
+					System.out.println("Negative-weight cycle found!");
+					System.exit(3);
+				}
 			}
 		}
 

@@ -10,23 +10,23 @@ import java.util.List;
 public class CamelTemplate {
     
     /** Camel template's name */
-    private String templateName;
+    private final String templateName;
     /** Minimum speed for calculation that can camel have */
-    private double speedMin;
+    private final double speedMin;
     /** Maximum speed for calculation that can camel have */
-    private double speedMax;
+    private final double speedMax;
     /** Minimum distance for calculation that can camel travel */
-    private double distanceMin;
+    private final double distanceMin;
     /** Maximum distance for calculation that can camel travel */
-    private double distanceMax;
+    private final double distanceMax;
     /** How much time it takes to drink */
-    private double drinkTime;
+    private final double drinkTime;
     /** How many stretchers are possible to load */
-    private int maxLoad;
+    private final int maxLoad;
     /** Generation probability <0;1> */
-    private double ratio;
+    private final double ratio;
     /** List that contains all the camel templates of the program. */
-    private static ArrayList<CamelTemplate> camelTemplates = new ArrayList<CamelTemplate>();
+    private static List<CamelTemplate> camelTemplates = new ArrayList<CamelTemplate>();
 
     /**
      * Constructor of Camel Template
@@ -50,10 +50,6 @@ public class CamelTemplate {
         this.ratio = ratio;
 
         camelTemplates.add(this);
-
-        if (Settings.isTestMode()) {
-            System.out.printf("New Camel Template created. Attributes > templateName: %s, speedMin: %.2f, speedMax: %.2f, distanceMin: %.2f, distanceMax: %.2f, drinkTime: %.2f, maxLoad: %d, ratio: %.2f\n", templateName, speedMin, speedMax, distanceMin, distanceMax, drinkTime, maxLoad, ratio);
-        }
     }
 
     /**

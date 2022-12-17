@@ -11,9 +11,8 @@ public class Factory {
     /**
      * Creating new instance of camel from randomly selected template with ratio
      * @return new camel created from selected template with generated attributes (distance, speed).
-     * @throws Exception if the ratio sum of templates is over / under 1.0 
      */
-    public static Camel camel() throws Exception {
+    public static Camel camel() {
         List<CamelTemplate> templates = CamelTemplate.getCamelTemplates();
         int[] select = new int[100];
         int nextIdx = 0;
@@ -23,8 +22,10 @@ public class Factory {
             int leftIterations = (int)(template.getRatio() * 100);
             
             for (int i = 0; i < leftIterations; i++) {
-                if (nextIdx >= 100)
-                    throw new Exception("Camel ratio sum is over value 1.0");
+                if (nextIdx >= 100) {
+                    System.out.println("Camel ratio sum is over value 1.0");
+                    System.exit(2);
+                }
 
                 select[nextIdx] = templateIdx;
                 nextIdx++;
@@ -34,7 +35,8 @@ public class Factory {
         }
 
         if (nextIdx < 100) {
-            throw new Exception("Camel ratio sum is under value 1.0");
+            System.out.println("Camel ratio sum is under value 1.0");
+            System.exit(2);
         }
 
         Random random = new Random();
@@ -48,9 +50,8 @@ public class Factory {
      * Creating new instance of camel from randomly selected template with ratio, setting home storage of the new instance (camel)
      * @param homeStorage which storage to set as home storage for the new instance (camel)
      * @return new camel created from selected template with generated attributes (distance, speed) and location + home storage.
-     * @throws Exception if the ratio sum of templates is over / under 1.0 
      */
-    public static Camel camel(Storage homeStorage) throws Exception {
+    public static Camel camel(Storage homeStorage) {
         Camel camel = camel();
         camel.setHomeStorage(homeStorage);
         camel.setLocation(homeStorage);

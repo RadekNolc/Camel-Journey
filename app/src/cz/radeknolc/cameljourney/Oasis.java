@@ -17,26 +17,22 @@ public class Oasis extends Location {
         super(x, y);
         id = nextId++;
         index = nextIndex++;
-
-        if (Settings.isTestMode()) {
-            System.out.printf("New Oasis created. Attributes > x: %.2f, y: %.2f\n", x, y);
-        }
     }
 
     /**
      * Getting existing oasis by index
      * @param index index of searched oasis
      * @return the found oasis
-     * @throws Exception if the oasis with the specified index does not exist
+     * @throws NullPointerException if the oasis with the specified index does not exist
      */
-    public static Oasis getOasisByIndex(int index) throws Exception {
+    public static Oasis getOasisByIndex(int index) throws NullPointerException {
         for (Location location : Location.getLocations()) {
             if (location instanceof Oasis && location.getIndex() == index) {
                 return (Oasis) location;
             }
         }
 
-        throw new Exception("Could not find oasis with index " + index);
+        throw new NullPointerException("Could not find oasis with index " + index);
     }
 
     /**

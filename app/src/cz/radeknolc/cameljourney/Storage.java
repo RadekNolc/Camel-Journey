@@ -12,13 +12,13 @@ public class Storage extends Location {
     /** Current count of stretchers available */
     private int stretchers;
     /** Maximum of stretchers that can be hold in storage */
-    private int maxStretchers;
+    private final int maxStretchers;
     /** How much time it takes to fill again stretchers */
-    private double fillTime; 
+    private final double fillTime;
     /** When has been storage filled last */
     private double lastFillTime;
     /** How much time it takes to load one stretcher to camel */
-    private double loadTime;
+    private final double loadTime;
     /** Next index for the new instance */
     private static int nextIndex = 1;
 
@@ -37,14 +37,10 @@ public class Storage extends Location {
 
         this.fillTime = fillTime;
         this.loadTime = loadTime;
+        this.stretchers = maxStretchers;
         this.maxStretchers = maxStretchers;
 
         lastFillTime = 0;
-        refillStretchers();
-
-        if (Settings.isTestMode()) {
-            System.out.printf("New Storage created. Attributes > x: %.2f, y: %.2f, maxStretchers: %d, fillTime: %.2f, loadTime: %.2f\n", x, y, maxStretchers, fillTime, loadTime);
-        }
     }
 
     /**
@@ -111,8 +107,9 @@ public class Storage extends Location {
         List<Storage> storages = new ArrayList<Storage>();
 
         for (Location location : Location.getLocations()) {
-            if (location instanceof Storage)
-                storages.add((Storage)location);
+            if (location instanceof Storage) {
+                storages.add((Storage) location);
+            }
         }
 
         return Collections.unmodifiableList(storages);
@@ -137,16 +134,16 @@ public class Storage extends Location {
      * Getting existing storage by index
      * @param index index of searched storage
      * @return the found storage
-     * @throws Exception if the storage with the specified index does not exist
+     * @throws NullPointerException if the storage with the specified index does not exist
      */
-    public static Storage getStorageByIndex(int index) throws Exception {
+    public static Storage getStorageByIndex(int index) throws NullPointerException {
         for (Location location : Location.getLocations()) {
             if (location instanceof Storage && location.getIndex() == index) {
                 return (Storage) location;
             }
         }
 
-        throw new Exception("Could not find storage with index " + index);
+        throw new NullPointerException("Could not find storage with index " + index);
     }
 
     /**

@@ -1,6 +1,7 @@
 package cz.radeknolc.cameljourney;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Main class handling the whole program simulation
@@ -11,21 +12,15 @@ public class Main {
     /**
      * Main method handling whole program simulation
      * @param args arguments to start program with
-     * @throws Exception if an error occurs during simulation
+     * @throws IOException if an error occurs during simulation
+     * @throws RuntimeException if an error occurs while processing requests
+     * @throws NoSuchFieldException if the map has not been rendered
      */
-    public static void main(String[] args) throws Exception {
-
-        if (Settings.isTestMode()) {
-            System.out.println("Probíhá načítání dat...");
-        }
+    public static void main(String[] args) throws IOException, RuntimeException, NoSuchFieldException {
 
         DataReader reader = new DataReader(new File(Settings.getInputFile())); /* Initialization of data reader */
 
         reader.processData(); /* Process data */
-
-        if (Settings.isTestMode()) {
-            System.out.println("Probíhá spuštění simulace...");
-        }
 
         /* Running simulation */
         Simulation simulation = new Simulation();

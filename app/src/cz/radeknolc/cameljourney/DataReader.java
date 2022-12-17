@@ -1,6 +1,7 @@
 package cz.radeknolc.cameljourney;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -12,7 +13,7 @@ import java.util.regex.Pattern;
 public class DataReader {
     
     /** Getting read file */
-    private File file;
+    private final File file;
 
     /**
      * Creating data reader instance
@@ -25,9 +26,9 @@ public class DataReader {
     /**
      * Function to read input file and convert it into a string
      * @return file content as string
-     * @throws Exception if there was an error reading input file
+     * @throws IOException if there was an error reading input file
      */
-    private String readFileAsString() throws Exception {
+    private String readFileAsString() throws IOException {
         StringBuilder fileAsString = new StringBuilder();
         Scanner scanner = null;
         FileInputStream inputStream = null;
@@ -55,7 +56,7 @@ public class DataReader {
         }
 
         if (fileAsString.isEmpty()) {
-            throw new Exception("Dokument nejspíš neobsahuje žádný text.");
+            throw new IOException("Dokument nejspíš neobsahuje žádný text.");
         }
 
         return fileAsString.toString();
@@ -64,9 +65,9 @@ public class DataReader {
     /**
      * Function to read simulation data and clear it from comments etc.
      * @return list of simulation data
-     * @throws Exception if there was an error reading file as text
+     * @throws IOException if there was an error reading file as text
      */
-    private String getCleanedData() throws Exception {
+    private String getCleanedData() throws IOException {
         /* Basic init */
         String input = readFileAsString();
         ArrayList<Integer> commentStarts = new ArrayList<Integer>();
@@ -97,9 +98,9 @@ public class DataReader {
 
     /**
      * Function to process data and load it into simulation
-     * @throws Exception if there was an an error during processing data
+     * @throws IOException if there was an error during processing data
      */
-    public void processData() throws Exception {
+    public void processData() throws IOException {
         /* Retrieving data */
         String data = getCleanedData();
 
@@ -126,7 +127,7 @@ public class DataReader {
                         case 0:
                             new Storage(Double.parseDouble(scanner.next(anyNumberPattern)), Double.parseDouble(scanner.next(anyNumberPattern)), Integer.parseInt(scanner.next(anyNumberPattern)), Double.parseDouble(scanner.next(anyNumberPattern)), Double.parseDouble(scanner.next(anyNumberPattern)));
                             break;
-                            
+
                         case 1:
                             new Oasis(Double.parseDouble(scanner.next(anyNumberPattern)), Double.parseDouble(scanner.next(anyNumberPattern)));
                             break;
@@ -141,6 +142,11 @@ public class DataReader {
 
                         case 4:
                             new Request(Double.parseDouble(scanner.next(anyNumberPattern)), Integer.parseInt(scanner.next(anyNumberPattern)), Integer.parseInt(scanner.next(anyNumberPattern)), Double.parseDouble(scanner.next(anyNumberPattern)));
+                            break;
+
+                        default:
+                            System.out.println("Nastala chyba při čtení vstupu souboru.");
+                            System.exit(1);
                             break;
                     }
                 }

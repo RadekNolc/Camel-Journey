@@ -14,28 +14,30 @@ import java.util.Random;
 abstract class Calculator {
     
     /** Instance of Random class */
-    private static Random random = new Random();
+    private static final Random random = new Random();
     
     /**
      * Function to calculate normal distributon with mean (<b>(min + max) / 2.0</b>) and standard deviation (<b>(max - min) / 4.0</b>)
      * @param min minimum value to calculate from
      * @param max maximum value to calculate to
      * @return the value calculated by normal distribution as double, higher or equals to min, lower or equals to max
-     * @throws Exception if there was not possible to generate the normal distribution
      */
-    public static double normalDistribution(double min, double max) throws Exception {
+    public static double normalDistribution(double min, double max) {
         Double result = null;
         int tries = 1;
         int maxTries = 50; /* Defining maximum tries to not cycle the program */
 
         while ((result == null) || (result < min || result > max)) {
-            if (tries >= maxTries) throw new Exception("Error while computing normal distribution.");
+            if (tries >= maxTries) {
+                System.out.println("Error while computing normal distribution.");
+                System.exit(2);
+            }
                 
             result = random.nextGaussian((min + max) / 2.0, (max - min) / 4.0);
             tries++;
         }
 
-        return result.doubleValue();
+        return result;
     }
 
     /**
@@ -45,7 +47,10 @@ abstract class Calculator {
      * @return the value calculated by continuous distribution as double, higher or equals to min, lower or equals to max
      */
     public static double continuousDistribution(double min, double max) {
-        if (min == max) return min;
+        if (min == max) {
+            return min;
+        }
+
         return random.nextDouble(min, max);
     }
 

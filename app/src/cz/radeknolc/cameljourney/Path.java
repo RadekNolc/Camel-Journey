@@ -10,36 +10,32 @@ import java.util.List;
 public class Path {
 
     /** From where the path is */
-    private Location from;
+    private final Location from;
     /** To where the path is */
-    private Location to;
+    private final Location to;
     /** List that handles all the paths */
-    private static ArrayList<Path> paths = new ArrayList<>();
+    private static List<Path> paths = new ArrayList<>();
 
     /**
      * Creating both-way path between two location IDs
      * @param from where the path starts as location ID
      * @param to where the path ends as location ID
-     * @throws Exception if the location(s) could not be found by ID
+     * @throws NullPointerException if the location(s) could not be found by ID
      */
-    public Path(int from, int to) throws Exception {
+    public Path(int from, int to) throws NullPointerException {
         this.from = Location.getLocationById(from);
         this.to = Location.getLocationById(to);
 
         paths.add(this);
-
-        if (Settings.isTestMode()) {
-            System.out.printf("New Path created. Attributes > from: %d, to: %d\n", from, to);
-        }
     }
 
     /**
      * Creating both-way path between two locations
      * @param from where the path starts
      * @param to where the path ends
-     * @throws Exception if the location(s) could not be found by ID
+     * @throws NullPointerException if the location(s) could not be found by ID
      */
-    public Path(Location from, Location to) throws Exception {
+    public Path(Location from, Location to) throws NullPointerException {
         this.from = from;
         this.to = to;
 

@@ -6,9 +6,9 @@ package cz.radeknolc.cameljourney;
 abstract class Point {
 
     /** X coordinate of point */
-    private double x;
+    private final double x;
     /** Y coordinate of point */
-    private double y;
+    private final double y;
 
     /**
      * Creating point by coordinates
