@@ -105,7 +105,7 @@ public class DataReader {
         String data = getCleanedData();
 
         /* Basic init */
-        Pattern anyNumberPattern = Pattern.compile(/*"(\\-?\\d*\\.?\\d*)(?:\\^|e)(\\-?\\d*\\.?\\d*)"*/"(\\-?\\d*\\.?\\d*)((?:\\^|e)(\\-?\\d*\\.?\\d*))?");
+        Pattern anyNumberPattern = Pattern.compile("(\\-?\\d*\\.?\\d*)((?:\\^|e)(\\-?\\d*\\.?\\d*))?");
         Scanner scanner = null;
 
         int propertyType = 0; /* 0 = storage, 1 = oasis, 2 = path, 3 = camel template, 4 = request */

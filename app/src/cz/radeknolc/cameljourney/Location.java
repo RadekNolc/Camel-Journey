@@ -16,7 +16,7 @@ abstract class Location extends Point {
     /** Next unique identifier for the new instance */
     protected static int nextId = 1;
     /** All created locations */
-    private static List<Location> locations = new ArrayList<>();
+    private static final List<Location> locations = new ArrayList<>();
 
     /**
      * Creating new location

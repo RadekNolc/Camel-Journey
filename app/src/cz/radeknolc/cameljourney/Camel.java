@@ -34,7 +34,7 @@ public class Camel {
     /** Next unique identifier for the new instance */
     private static int nextId = 1;
     /** All created camels */
-    private static List<Camel> camels = new ArrayList<Camel>();
+    private static final List<Camel> camels = new ArrayList<Camel>();
 
     /**
      * Constructor of Camel

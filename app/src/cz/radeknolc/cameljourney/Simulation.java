@@ -17,7 +17,7 @@ public class Simulation {
         Map.render();
 
         if (Request.getRequests().peek() == null) {
-            System.out.println("Žádné požadavky k odbavení.");
+            System.out.println("No requests to process.");
             return;
         }
         

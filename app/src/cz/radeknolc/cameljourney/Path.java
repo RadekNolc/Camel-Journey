@@ -14,7 +14,7 @@ public class Path {
     /** To where the path is */
     private final Location to;
     /** List that handles all the paths */
-    private static List<Path> paths = new ArrayList<>();
+    private static final List<Path> paths = new ArrayList<>();
 
     /**
      * Creating both-way path between two location IDs

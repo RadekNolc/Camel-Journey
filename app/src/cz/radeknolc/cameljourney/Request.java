@@ -25,7 +25,7 @@ public class Request {
     /** Next unique identifier for the new instance  */
     private static int nextId = 1;
     /** Queue of all requests */
-    private static Queue<Request> requests = new LinkedList<Request>();
+    private static final Queue<Request> requests = new LinkedList<Request>();
 
     /**
      * Creating a new request

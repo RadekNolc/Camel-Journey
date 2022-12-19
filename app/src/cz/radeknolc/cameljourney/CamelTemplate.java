@@ -26,7 +26,7 @@ public class CamelTemplate {
     /** Generation probability <0;1> */
     private final double ratio;
     /** List that contains all the camel templates of the program. */
-    private static List<CamelTemplate> camelTemplates = new ArrayList<CamelTemplate>();
+    private static final List<CamelTemplate> camelTemplates = new ArrayList<CamelTemplate>();
 
     /**
      * Constructor of Camel Template
