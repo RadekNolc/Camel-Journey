@@ -30,22 +30,21 @@ A jako poslední, nejdůležitější třída, je *Simulation*. Tato třída se 
 ## **UML diagramy**
 Pro lepší orientaci v návrhu programu byly vytvořeny dva UML diagramy. První UML diagram je zjednodušený, přehledný. Druhý UML diagram již detailnější, s použitými metodami.
 
-![Obsah obrázku text, černá, snímek obrazovky, obrazovka
-
-Popis byl vytvořen automaticky](img/Aspose.Words.8ef4d83e-068a-41e9-a65b-b752a567c1fc.001.png)Obrázek 1 Zjednodušený UML diagram
-
+![](img/Aspose.Words.8ef4d83e-068a-41e9-a65b-b752a567c1fc.001.png)
+*Obrázek 1 Zjednodušený UML diagram*
 
 
-![](img/Aspose.Words.8ef4d83e-068a-41e9-a65b-b752a567c1fc.002.png)Obrázek 2 Detailní UML diagram
+![](img/Aspose.Words.8ef4d83e-068a-41e9-a65b-b752a567c1fc.002.png)
+*Obrázek 2 Detailní UML diagram*
 # **Uživatelská dokumentace**
-   1. ## **O programu**
+## **O programu**
 Program slouží pro simulaci efektivní přepravy košů pomocí velbloudů mezi lokacemi. Vstupem je textový soubor s daty. Po zpracování dojde k postupnému výpisu. Tento výpis obsahuje informace o požadavku. Který velbloud se stará o dokončení požadavku, kde se aktuálně nachází, případně co aktuálně dělá.
 ## **Příprava dat**
-Před samotným spuštěním je zapotřebí si připravit nějaká vstupní data. Tato data musí mít určitou strukturu, jinak program nebude fungovat správně. Strukturu dat včetně popisu můžete nalézt na obrázku č. 3.
+Před samotným spuštěním je zapotřebí si připravit nějaká vstupní data. Tato data musí mít určitou strukturu, jinak program nebude fungovat správně. Strukturu dat včetně popisu můžete nalézt na obrázku č. 3. Soubor se vstupními daty se musí jmenovat *input.txt* a musí se nacházet ve stejné složce jako soubor *app.jar*.
 
-![](img/Aspose.Words.8ef4d83e-068a-41e9-a65b-b752a567c1fc.003.png)Soubor se vstupními daty se musí jmenovat *input.txt* a musí se nacházet ve stejné složce jako soubor *app.jar*.
+![](img/Aspose.Words.8ef4d83e-068a-41e9-a65b-b752a567c1fc.003.png)
+*Obrázek 3 Ukázka vstupních dat*
 
-Obrázek 3 Ukázka vstupních dat
 ## **Spuštění programu**
 Před spuštěním se ujistěte, že máte připravený soubor s daty, tento soubor se jmenuje *input.txt* a je ve stejné složce jako *app.jar*.
 
@@ -53,8 +52,9 @@ Pro spuštění programu můžete využit více způsobů, přes vývojové pros
 ### **Spuštění přes vývojové prostředí**
 Program lze spustit přes vývojové prostředí, například přes IntelliJ. Nejdříve je potřeba si toto vývojové prostředí otevřít, otevřít v něm konkrétní projekt (v našem případě *app*) a vpravo nahoře stisknout zelené „play“ tlačítko.
 
-Obrázek 4 Postup špuštění programu přes IntelliJ
-### ![](img/Aspose.Words.8ef4d83e-068a-41e9-a65b-b752a567c1fc.004.png)![](img/Aspose.Words.8ef4d83e-068a-41e9-a65b-b752a567c1fc.005.png)**Spuštění přes shell script**
+![](img/Aspose.Words.8ef4d83e-068a-41e9-a65b-b752a567c1fc.004.png)![](img/Aspose.Words.8ef4d83e-068a-41e9-a65b-b752a567c1fc.005.png)
+*Obrázek 4 Postup špuštění programu přes IntelliJ*
+### **Spuštění přes shell script**
 Pokud máte k dispozici program pro spouštění *.sh* souborů, program lze snadno spustit přes soubor *run.sh*, který se nachází ve složce spolu s *input.txt* a *app.jar*.
 ### **Spuštění přes terminál**
 Nejjednodušší způsob spuštění přes terminál v OS Windows je vstup do složky s *input.txt* a *app.jar*. Klikněte levým tlačítkem myši do pole s cestou k souboru (vedle prohledávání) až celá cesta zmodrá. Nyní napište do tohoto pole *cmd* a stiskněte *ENTER*. Otevře se vám příkazový řádek. Nyní do příkazového řádku vepište *java -Dfile.encoding=UTF-8 -jar app.jar* a stiskněte *ENTER*, tím se program spustí.
@@ -64,8 +64,8 @@ Pokud se nacházíte na Linuxu / MacOS, musíte jít do vybrané složky přes 
 Závěrem bych si dovolil zhodnotit průběh realizace této semestrální práce. Nejlehčí byl prvotní návrh programu na základě zadání. Postupem vývoje se však objevovaly různé problémy, které na začátku nebyly zjevné. Mezi nejnáročnější části patřilo vymýšlení fungování programu do detailu a následná implementace. Neméně náročné byla i implementace již existujících algoritmů.
 
 Jednalo se o první projekt takového rozsahu za dobu studia. Osobně jsem na tuto práci pyšný. Podařilo se mi dosáhnout minimálních požadavků i přes fakt, že v rámci studia na FEK je programování spíše minoritní.
-## **Přínos jednotlivých členů týmu**
-Níže lze nalézt detailnější přínos jednotlivých členů týmu. Jedná se o co nejvíce objektivní zhodnocení přínosu.
+## **Shrnutí práce**
+Níže lze nalézt detailnější přínos shrnutí práce. Jedná se o co nejvíce objektivní zhodnocení.
 
 **Radek Nolč**: 
 
@@ -82,9 +82,3 @@ Níže lze nalézt detailnější přínos jednotlivých členů týmu. Jedná s
 - Vygenerování Javadoc
 - Vygenerování UML diagramů za účelem vyhotovení strukturované dokumentace
 - Strukturovaná dokumentace
-
-**Petr Chrz**:
-
-- Minimální úsilí
-- Neuspokojivé dokumentační komentáře
-- Nepoužitelná strukturovaná dokumentace
