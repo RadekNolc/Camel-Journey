@@ -55,8 +55,10 @@ Pro spuštění programu můžete využit více způsobů, přes vývojové pros
 #### **Spuštění přes vývojové prostředí**
 Program lze spustit přes vývojové prostředí, například přes IntelliJ. Nejdříve je potřeba si toto vývojové prostředí otevřít, otevřít v něm konkrétní projekt (v našem případě *app*) a vpravo nahoře stisknout zelené „play“ tlačítko.
 
-![Obrázek 4 Postup špuštění programu přes IntelliJ](img/Aspose.Words.8ef4d83e-068a-41e9-a65b-b752a567c1fc.004.png)![](img/Aspose.Words.8ef4d83e-068a-41e9-a65b-b752a567c1fc.005.png)
-*Obrázek 4 Postup špuštění programu přes IntelliJ*
+| ![Obrázek 4 Postup špuštění programu přes IntelliJ](img/Aspose.Words.8ef4d83e-068a-41e9-a65b-b752a567c1fc.004.png) |
+|:--:|
+| *Obrázek 4 Postup špuštění programu přes IntelliJ* |
+
 #### **Spuštění přes shell script**
 Pokud máte k dispozici program pro spouštění *.sh* souborů, program lze snadno spustit přes soubor *run.sh*, který se nachází ve složce spolu s *input.txt* a *app.jar*.
 #### **Spuštění přes terminál**
